@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model escola {
+  id_escola     Int    @id @default(autoincrement())
+  id_juncao     String
+  nome_escola   String
+  numero_escola String
+  token_router  String
+  token_acess   String
+}
+
+model CacheCampanha {
+  id_campanha        String           @id
+  id_juncao          String?
+  id_escola          Int?
+  nome_campanha      String?
+  modelo_mensagem    String?
+  data_envio         DateTime?
+  total_audiencia    Int              @default(0)
+  qtd_recebidas      Int              @default(0)
+  qtd_lidas          Int              @default(0)
+  qtd_falhas         Int              @default(0)
+  finalizada         Boolean          @default(false)
+  ultima_verificacao DateTime         @default(now())
+  criado_em          DateTime         @default(now())
+  atualizado_em      DateTime         @updatedAt
+  audiencias         CacheAudiencia[]
+
+  @@index([id_juncao])
+  @@index([id_escola])
+  @@index([data_envio])
+  @@index([modelo_mensagem])
+  @@index([finalizada])
+  @@map("cache_campanha")
+}
+
+model CacheAudiencia {
+  id_cache_audiencia Int           @id @default(autoincrement())
+  id_campanha        String
+  id_juncao          String?
+  identidade_destino String
+  msisdn             String
+  status             String
+  codigo_motivo      Int?
+  descricao_motivo   String?
+  processada_em      DateTime?
+  recebida_em        DateTime?
+  lida_em            DateTime?
+  final              Boolean       @default(false)
+  id_aluno           Int?
+  id_responsavel     Int?
+  id_turma           Int?
+  id_escola          Int?
+  nome_aluno         String?
+  nome_responsavel   String?
+  nome_escola        String?
+  nome_turma         String?
+  nome_serie         String?
+  criado_em          DateTime      @default(now())
+  atualizado_em      DateTime      @updatedAt
+  campanha           CacheCampanha @relation(fields: [id_campanha], references: [id_campanha])
+
+  @@unique([id_campanha, identidade_destino])
+  @@index([id_juncao])
+  @@index([msisdn])
+  @@index([status])
+  @@index([id_escola])
+  @@index([id_turma])
+  @@index([id_aluno])
+  @@index([id_responsavel])
+  @@map("cache_audiencia")
+}
+
+model Disparos {
+  id_disparos            Int      @id @unique @default(autoincrement())
+  data_disparo           DateTime @default(now())
+  usuario_disparo        String
+  juncao                 String
+  quantidade_de_disparos Int
+  id_escola              Int
+  body_to_blip           String
+  body_received_of_blip  String
+  nome_camapanha         String
+
+  @@map("disparos")
+}
+
+model Logs {
+  id_disparos        Int      @id @unique @default(autoincrement())
+  data_log           DateTime @default(now())
+  servico_solicitado String
+  usuario_disparo    String
+  juncao             String
+  body_recebido      String
+
+  @@map("logs")
+}
