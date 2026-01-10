@@ -27,7 +27,8 @@ export async function WorkerCampaingsUpdate() {
                 continue;
             }
 
-            const resultGetDataCampaing = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router)
+            const resultGetDataCampaing = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
+            console.log(resultGetDataCampaing)
         }
     } catch (e: any) {
 

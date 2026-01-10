@@ -24,8 +24,8 @@ export async function startTaskWorkerCampaign() {
     const bodyCampaign = JSON.parse(msg.content.toString())
 
     try {
-     
-        
+
+
       console.log('✅ Tarefa concluída')
       channel.ack(msg)
     } catch (err) {
@@ -33,4 +33,30 @@ export async function startTaskWorkerCampaign() {
       channel.nack(msg, false, false)
     }
   })
+}
+
+const dadosModelos = {
+  contatosToDisparo: [
+    {
+      "cpf": "16095357667",
+      "mobileNumber": "5534997801829",
+      "name": "GABRIEL LOPES SOUZA",
+      "students": [
+        {
+          "rm": "12345",
+          "name": "GABRIEL LOPES SOUZA",
+          "email": "NULL",
+          "serie": "1",
+          "classCode": "A",
+          "description": "EF 1º ano A"
+        }
+      ]
+    }
+  ],
+  components: {
+    qtdDeVariaveis: 1,
+    camposDeUtilização: ["name"]
+  },
+  nameTamplate: "zacarias_vendas",
+  token_acess: ""
 }
