@@ -1,16 +1,19 @@
-import { AuthClasses } from "../../domain/gateways/AuthClasses.js"
-export class ClassesUseCase {
-    constructor(private authTemplete: AuthClasses) { }
+import { GetClasses } from "../../infrastructure/http/bradesco/GetClasses.js"
 
-    async execute(token_acess: string, segment: string, classCode: string, serie: string) {
-        const result = await this.authTemplete.global(token_acess, segment, classCode, serie)
-        
-        if (!result.success) {
-            return {
-                success: false, message: "", data: null, error: result.error
-            }
+export async function ClassesUseCase(
+    token_acess: string,
+    segment: string,
+    classCode: string,
+    serie: string
+) {
+    try {
+        const GetClassesResponse = await GetClasses(token_acess, segment, classCode, serie);
+        return GetClassesResponse
+    } catch (e: any) {
+        return {
+            success: false,
+            message: "",
+            data: {}
         }
-
-        return result
     }
 }

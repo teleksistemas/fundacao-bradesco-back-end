@@ -1,16 +1,14 @@
-import { AuthGlobal } from "../../domain/gateways/AuthGlobal.js"
-export class SegmentsUseCase {
-    constructor(private authTemplete: AuthGlobal) { }
+import { GetSegments } from "../../infrastructure/http/bradesco/GetSegments.js"
 
-    async execute(token_acess: string) {
-        const result = await this.authTemplete.global(token_acess)
-        
-        if (!result.success) {
-            return {
-                success: false, message: "", data: null, error: result.error
-            }
+export async function SegmentsUseCase(token_acess: string) {
+    try {
+        const resultGetSegments = await GetSegments(token_acess);
+        return resultGetSegments;
+    } catch (e: any) {
+        return {
+            success: false,
+            message: "Erro interno no servidor",
+            data: {}
         }
-
-        return result
     }
 }

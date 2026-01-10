@@ -1,16 +1,15 @@
-import { AuthGlobal } from "../../domain/gateways/AuthGlobal.js"
-export class TempleteUseCase {
-    constructor(private authTemplete: AuthGlobal) { }
+import { GetTempletes } from "../../infrastructure/http/blip/GetTempletes.js";
 
-    async execute(token_acess: string) {
-        const result = await this.authTemplete.global(token_acess)
 
-        if (!result.success) {
-            return {
-                success: false, message: "", data: null, error: result.error
-            }
+export async function TempleteUseCase(token_acess: string) {
+    try {
+        const resultGetTempletes = await GetTempletes(token_acess);
+        return resultGetTempletes;
+    } catch (e: any) {
+        return {
+            success: false,
+            message: "Erro interno no servidor",
+            data: {}
         }
-
-        return result
     }
 }

@@ -2,7 +2,7 @@
 
 import { getConectionTheChannel } from '../connection.rabbitmg.js';
 
-export async function createTaskCampaign(task: any) {
+export async function createTaskCampaignBradesco(task: any) {
     const channel = getConectionTheChannel()
     console.log(`🔵 Serviço criado na fila campaing`);
     const queue = 'task.bradesco.campaign.create'

@@ -1,16 +1,28 @@
 import { TempleteUseCase } from "../../application/use-cases/TempleteUseCase.js"
-import { GlobalResults } from "../../domain/value-objects/GlobalResults.js"
-import { GlobalTokenAcessInputDTO } from "../../application/dto/GlobalTokenAcessInputDTO.js"
 
-export class TempleteController {
-  constructor(private templateUseCase: TempleteUseCase) {}
 
-  async handle(input: GlobalTokenAcessInputDTO): Promise<GlobalResults> {
-    const { token_acess } = input
-    if (!token_acess) {
-      return new GlobalResults(false, "Campo token_acess é obrigatório", null, "INVALID_INPUT")
+export async function TempleteController(req: any, res: any) {
+  try {
+    const { authorization, token_acess, role } = req.headers
+    if (authorization !== process.env.VERIFY_TOKEN) {
+      return res.status(403).end("Necessário do authorization no header")
     }
 
-    return this.templateUseCase.execute(token_acess)
+    if (!token_acess || typeof token_acess != "string") {
+      return res.status(403).end("Necessário do token_acess no header")
+    }
+
+    // if (!role || typeof role != "string") {
+    //   return res.status(403).end("Necessário do role no header")
+    // }
+
+    const resultTempleteUseCase = await TempleteUseCase(token_acess);
+    return res.status(resultTempleteUseCase.success == true ? 200 : 400).json(resultTempleteUseCase)
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Erro interno do servidor",
+      data: {}
+    });
   }
 }

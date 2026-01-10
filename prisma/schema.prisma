@@ -18,7 +18,7 @@ model escola {
 
 model CacheCampanha {
   id_campanha        String           @id
-  id_juncao          String?
+  id_juncao          String
   id_escola          Int?
   nome_campanha      String?
   modelo_mensagem    String?

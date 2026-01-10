@@ -1,83 +1,62 @@
-// import axios from 'axios';
-// import { v4 as uuidv4 } from "uuid";
-// const BLIP_BASE = `https://fundacaobradesco.http.msging.net/commands`;
-// const BLIP_AUTH = "Key ZnVuZGFjYW9icmFkZXNjbzE6SXE3MkxiVVFmU2lzUDBCN2hOZTU=";
-// import { getEscolasByNome } from "@/lib/ColetarDadosEscola";
-// const tokenParaSegundaChance = process.env.TOKEN_ROUTER_BLIP;
-// const contrato = process.env.ID_CONTRATO_BLIP;
+import axios from "axios"
 
-// async function coletarTemplate(idjuncao: string) {
-//     try {
+import { v4 as uuidv4 } from "uuid";
+import { EscolaByTokenAcess } from "../../../infrastructure/database/escola/Escola.js"
 
-//         const consulta = await getEscolasByNome(idjuncao);
+export async function GetTempletes(token_acess: string) {
 
-//         console.log(consulta)
+  try {
+    const tokenRoteador = await EscolaByTokenAcess(token_acess)
 
-//         if (consulta.length == 0) {
-//             return {
-//                 "success": false,
-//                 "data": [],
-//                 "erro": "Não encontramos sua escola.",
-//                 "message": "Não conseguimos localizar os dados da sua escola. Peço que refaça o login novamente!"
-//             }
-//         }
+    if (!tokenRoteador.token_acess) {
+      return {
+        success: false,
+        message: "Escola não encontrada",
+        data: {}
+      }
+    }
 
-//         const body = {
-//             "id": uuidv4(),
-//             "to": "postmaster@wa.gw.msging.net",
-//             "method": "get",
-//             "uri": "/message-templates"
-//         }
+    console.log(tokenRoteador)
+    const bodyToRequest = {
+      "id": uuidv4(),
+      "to": "postmaster@wa.gw.msging.net",
+      "method": "get",
+      "uri": "/message-templates"
+    }
 
-//         const token = consulta[0].token_router ?? tokenParaSegundaChance;
+    const { data, status } = await axios.post("https://bradesco.http.msging.net/commands",
+      bodyToRequest,
+      {
+        headers: {
+          "Authorization": tokenRoteador.token_router
+        }
+      }
+    );
 
-//         const req = await axios.post(`https://${contrato}.http.msging.net/commands`,
-//             body,
-//             {
-//                 headers: {
-//                     "Authorization": token
-//                 }
-//             })
+    if (status != 200) {
+      return {
+        success: false,
+        message: "Erro na API ao coletar templetes na Blip",
+        data: {}
+      }
+    }
 
-//         return {
-//             status: true,
-//             menssage: "Requisição ocorrida com sucesso",
-//             data: req.data.resource.data || []
-//         }
-//     } catch (e) {
-//         return {
-//             status: false,
-//             menssage: "Erro ao coletar dados: " + JSON.stringify(e),
-//             data: []
-//         }
-//     }
-// }
+    let bodyClean;
+    if (data.status == "success") {
+      bodyClean = data.resource.data;
+    }
 
+    return {
+      success: true,
+      message: "Templetes coletados com sucesso",
+      data: data
+    }
 
-// export async function GET(req: NextRequest) {
-//     try {
-//         const idJuncaoEscola = req.headers.get('idjuncao');
-
-//         if (!idJuncaoEscola) {
-//             return NextResponse.json(
-//                 {
-//                     success: false,
-//                     data: [],
-//                     erro: "ID da escola não foi encontrado na sua sessão",
-//                     message: "Sua sessão parece ter expirado. Faça login novamente para continuar usando o sistema!"
-//                 },
-//                 { status: 500 }
-//             );
-//         }
-
-//         const resultado = await coletarTemplate(idJuncaoEscola);
-        
-//         return NextResponse.json(resultado,{status: 200});
-//     } catch (e) {
-//         console.error("Erro na API:", e);
-//         return NextResponse.json(
-//             { status: false, mensagem: "Erro interno no servidor.", data: [] },
-//             { status: 500 }
-//         );
-//     }
-// }
+  } catch (e: any) {
+    return {
+      success: false,
+      message: "Erro interno no servidor",
+      data: {}
+    }
+  }
+}
