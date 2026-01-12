@@ -1,167 +1,138 @@
-
 import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping.js";
 import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing.js";
 import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola.js";
 import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience.js";
+import { atualizarDadosDeDisparoCampanha, atualizarFianlizadaCampanha } from "../../infrastructure/database/campaing/Camaping.js"
 
 export async function WorkerCampaingsUpdate() {
     try {
         const listCampaingsActived = await CamapingWithFinalizadaIstrue();
-
-        for (let i = 0; i < listCampaingsActived.length; i++) {
-            const campaing = listCampaingsActived[i];
+        console.log(JSON.stringify(listCampaingsActived))
+        for (const campaing of listCampaingsActived) {
             const dadosEscola = await EscolaByIdJuncao(campaing.id_juncao);
-
-            if (!dadosEscola.token_router) {
-                continue;
-            }
+            if (!dadosEscola?.token_router) continue;
 
             const resultGetDataCampaing = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
+            console.log(JSON.stringify(resultGetDataCampaing))
+            if (!resultGetDataCampaing.success || !resultGetDataCampaing.data?.length) continue;
 
-            if (resultGetDataCampaing.success && resultGetDataCampaing.data.length > 0) {
-                const targets = resultGetDataCampaing.data;
+            for (const targetGroup of resultGetDataCampaing.data) {
+                const idCampaing = targetGroup.id;
 
-                for (let y = 0; y < targets.length; y++) {
-                    const listaDeTarget = targets[y].statusAudience;
-                    const idCampaing = targets[y].id
+                for (const target of targetGroup.statusAudience) {
+                    const consulta = await searchCacheAudienciaToTarget(target.recipientIdentity, idCampaing);
+                    console.log(JSON.stringify(consulta))
+                    if (!consulta) continue;
 
-                    for (let z = 0; z < listaDeTarget.length; z++) {
-                        const target: TargetsTheOfAudience = listaDeTarget[z];
-                        const consultaTargetInBD = await searchCacheAudienciaToTarget(target.recipientIdentity, idCampaing);
+                    if (!precisaAtualizar(consulta, target)) continue;
 
-                        console.log(target)
-                        if (consultaTargetInBD && consultaTargetInBD.status != target.status) {
-                            await direcionarAudience(target, idCampaing);
-                        }
-
-                        if (consultaTargetInBD && target.reasonCode && target.reasonCode != undefined && consultaTargetInBD.codigo_motivo != target.reasonCode) {
-                            await direcionarAudience(target, idCampaing);
-                        }
-
-                        if (consultaTargetInBD && target.reasonDescription && target.reasonDescription != undefined && consultaTargetInBD.descricao_motivo != target.reasonDescription) {
-                            await direcionarAudience(target, idCampaing);
-                        }
-
-                        if (consultaTargetInBD && target.processed != undefined && consultaTargetInBD.processada_em != target.processed) {
-                            await direcionarAudience(target, idCampaing);
-                        }
-
-                        if (consultaTargetInBD && target.failed && target.failed != undefined && consultaTargetInBD.processada_em != target.failed) {
-                            await direcionarAudience(target, idCampaing);
-                        }
-
-
-                        console.log("Target atualizado ✅")
-                    }
+                    await direcionarAudience(target, idCampaing, campaing);
+                    console.log("Target atualizado ✅");
                 }
             }
         }
-    } catch (e: any) {
-        console.log(e)
+    } catch (e) {
+        console.log("❌ Erro Worker:", e);
     }
 }
 
 interface TargetsTheOfAudience {
-    "recipientIdentity": string,
-    "status": string,
-    "processed": Date,
-    "failed"?: Date,
-    "numberStatus": string,
-    "reasonDescription"?: string,
-    "reasonCode"?: number
+    recipientIdentity: string;
+    status: string;
+    processed?: string;
+    failed?: string;
+    numberStatus: string;
+    reasonDescription?: string;
+    reasonCode?: number;
 }
 
-const target = {
-    id: '31bdabbd-8971-4a21-bd36-e1067f630629',
-    name: 'FB Telek_Group_1768161024742_79051724-c808-4088-b9ff-a8abe03d9be0',
-    messageTemplate: 'zacarias_vendas',
-    masterState: 'boxfibraprincipal@msging.net',
-    flowId: '228635ea-fc3a-4a6d-8f8e-468b190e7b17',
-    stateId: 'bdcab051-e1f8-4cbe-ac09-e8d4f18713e0',
-    sendDate: '2026-01-11T19:50:24.720Z',
-    statusAudience: [
-        {
-            recipientIdentity: '5534997801829@wa.gw.msging.net',
-            status: 'FAILED',
-            reasonCode: 1602,
-            reasonDescription: 'The message recipient was in attendance',
-            failed: '2026-01-11T19:50:25.850Z',
-            numberStatus: 'VALID'
-        }
-    ],
-    channelType: 'WHATSAPP',
-    status: 'executed'
+/* ======== NORMALIZA DATAS PARA SEGUNDOS ======== */
+function mesmaData(a?: Date | string | null, b?: Date | string | null) {
+    if (!a || !b) return true;
+    return Math.floor(new Date(a).getTime() / 1000) === Math.floor(new Date(b).getTime() / 1000);
 }
 
-const targets = [
-    {
-        "id": "83b2d5d9-b2e8-439f-bc16-ddf3d0e78174",
-        "name": "FB Telek_Group_1768144810710_a3813d76-3fda-42dc-a440-c85e9cd79be8",
-        "messageTemplate": "zacarias_vendas",
-        "masterState": "boxfibraprincipal@msging.net",
-        "flowId": "228635ea-fc3a-4a6d-8f8e-468b190e7b17",
-        "stateId": "bdcab051-e1f8-4cbe-ac09-e8d4f18713e0",
-        "sendDate": "2026-01-11T15:20:10.820Z",
-        "statusAudience": [
-            {
-                "recipientIdentity": "5534997801829@wa.gw.msging.net",
-                "status": "PROCESSED",
-                "processed": "2026-01-11T15:20:13.450Z",
-                "numberStatus": "VALID"
-            }
-        ],
-        "channelType": "WHATSAPP",
-        "status": "executed"
-    }
-]
+/* ======== REGRA ÚNICA DE DECISÃO ======== */
+function precisaAtualizar(db: any, api: TargetsTheOfAudience): boolean {
 
-async function direcionarAudience(target: any, idCampaing: string) {
-    try {
-        let resultUpdateTarget;
-        if (target.status == "FAILED") {
-            resultUpdateTarget = await updateTarget(
-                target.recipientIdentity,
-                idCampaing,
-                target.status,
-                target.reasonCode ?? 0,
-                target.reasonDescription ?? "",
-                target.failed
-            );
-            console.log("Caiu no 1️⃣")
-        } else if (target.status == "READ") {
-            resultUpdateTarget = await updateTarget(
-                target.recipientIdentity,
-                idCampaing,
-                target.status,
-                target.reasonCode ?? 0,
-                target.reasonDescription ?? "",
-                target.processed
-            );
-            console.log("Caiu no 1️2️⃣")
-        } else if (target.status == "RECEIVED") {
-            resultUpdateTarget = await updateTarget(
-                target.recipientIdentity,
-                idCampaing,
-                target.status,
-                target.reasonCode ?? 0,
-                target.reasonDescription ?? "",
-                target.processed
-            );
-            console.log("Caiu no 3️⃣")
-        } else {
-            resultUpdateTarget = await updateTarget(
-                target.recipientIdentity,
-                idCampaing,
-                target.status,
-                target.reasonCode ?? 0,
-                target.reasonDescription ?? "",
-                target.processed
-            );
+    if (db.status !== api.status) return true;
 
-            console.log("Caiu no 3️⃣")
+    if ((db.codigo_motivo ?? null) !== (api.reasonCode ?? null)) return true;
+
+    if ((db.descricao_motivo ?? "") !== (api.reasonDescription ?? "")) return true;
+
+    if (api.processed && !mesmaData(db.processada_em, api.processed)) return true;
+
+    if (api.failed && !mesmaData(db.processada_em, api.failed)) return true;
+
+    return false;
+}
+
+/* ======== UPDATE CENTRALIZADO ======== */
+async function direcionarAudience(target: TargetsTheOfAudience, idCampaing: string, campaing: any) {
+
+    let dataRef: Date | undefined = target.processed ? new Date(target.processed) : undefined;
+
+    console.log(campaing)
+
+    let qtd_recebidas = campaing.qtd_recebidas ?? 0;
+    let qtd_lidas = campaing.qtd_lidas ?? 0;
+    let qtd_falhas = campaing.qtd_falhas ?? 0;
+
+    const totalDeAudiencias = qtd_recebidas + qtd_lidas + qtd_falhas;
+
+    if (target.status === "FAILED") {
+        dataRef = target.failed
+            ? new Date(target.failed)
+            : target.processed
+                ? new Date(target.processed)
+                : undefined;
+
+        console.log("Caiu no FAILED");
+        qtd_falhas++
+
+        if (campaing.total_audiencia != totalDeAudiencias) {
+            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
         }
-    } catch (e: any) {
-        console.log(e);
-        return false
+
     }
+    else if (target.status === "READ") {
+        console.log("Caiu no READ");
+        qtd_lidas++
+
+        if (campaing.total_audiencia != totalDeAudiencias) {
+            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+        }
+
+    }
+    else if (target.status === "RECEIVED") {
+        console.log("Caiu no RECEIVED")
+        qtd_recebidas++
+
+        if (campaing.total_audiencia != totalDeAudiencias) {
+            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+        }
+
+    }
+    else if (target.status === "PROCESSED") {
+        console.log("Caiu no PROCESSED");
+        qtd_recebidas++
+        if (campaing.total_audiencia != totalDeAudiencias) {
+
+            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+        }
+    }
+
+    console.log(totalDeAudiencias, campaing.total_audiencia)
+    if (campaing.total_audiencia == totalDeAudiencias) {
+        await atualizarFianlizadaCampanha(idCampaing)
+    }
+    return updateTarget(
+        target.recipientIdentity,
+        idCampaing,
+        target.status,
+        target.reasonCode ?? undefined,
+        target.reasonDescription ?? undefined,
+        dataRef
+    );
 }

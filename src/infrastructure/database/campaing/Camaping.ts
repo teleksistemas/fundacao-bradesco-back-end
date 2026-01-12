@@ -58,4 +58,40 @@ export async function createCampanha(body: any) {
 }
 
 
+export async function atualizarFianlizadaCampanha(idCampaing: string) {
+    try {
+        const resultTargetCacheAudience = await prisma.cacheCampanha.update({
+            where: {
+                id_campanha: idCampaing
+            },
+            data: {
+                finalizada: true
+            }
+        })
+
+        return resultTargetCacheAudience
+    } catch (e: any) {
+        console.log(e)
+    }
+}
+
+
+export async function atualizarDadosDeDisparoCampanha(idCampaing: string, qtd_recebidas: number, qtd_lidas: number, qtd_falhas: number) {
+    try {
+        const resultTargetCacheAudience = await prisma.cacheCampanha.update({
+            where: {
+                id_campanha: idCampaing
+            },
+            data: {
+                qtd_recebidas,
+                qtd_lidas,
+                qtd_falhas
+            }
+        })
+
+        return resultTargetCacheAudience
+    } catch (e: any) {
+        console.log(e)
+    }
+}
 

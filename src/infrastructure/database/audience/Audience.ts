@@ -75,6 +75,7 @@ export async function updateTarget(
     descricao_motivo?: string,
     processada_em?: Date
 ) {
+    console.log(`Acessou UPDATE com ${status}`)
     try {
         let data;
         if (status == "READ") {
@@ -100,6 +101,7 @@ export async function updateTarget(
                 processada_em,
                 final: true
             }
+
         } else {
             data = {
                 status,
@@ -108,6 +110,7 @@ export async function updateTarget(
                 processada_em
             }
         }
+
         const resultTargetCacheAudience = await prisma.cacheAudiencia.update({
             where: {
                 id_campanha_identidade_destino: {
@@ -123,3 +126,5 @@ export async function updateTarget(
         return false
     }
 }
+
+
