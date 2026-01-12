@@ -2,7 +2,7 @@
 import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping.js";
 import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing.js";
 import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola.js";
-import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/campaing/Camaping.js";
+import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience.js";
 
 export async function WorkerCampaingsUpdate() {
     try {
@@ -20,24 +20,41 @@ export async function WorkerCampaingsUpdate() {
 
             if (resultGetDataCampaing.success && resultGetDataCampaing.data.length > 0) {
                 const targets = resultGetDataCampaing.data;
+
                 for (let y = 0; y < targets.length; y++) {
                     const listaDeTarget = targets[y].statusAudience;
                     const idCampaing = targets[y].id
-                    console.log(targets[y]);
+
                     for (let z = 0; z < listaDeTarget.length; z++) {
                         const target: TargetsTheOfAudience = listaDeTarget[z];
                         const consultaTargetInBD = await searchCacheAudienciaToTarget(target.recipientIdentity, idCampaing);
-                      
-                        console.log(`${(consultaTargetInBD && consultaTargetInBD.status) ?? ""} - ${target.status}`)
+
+                        console.log(target)
                         if (consultaTargetInBD && consultaTargetInBD.status != target.status) {
-                            const resultUpdateTarget = await updateTarget(target.recipientIdentity, idCampaing, target.status);
-                            console.log(resultUpdateTarget)
-                        } else {
-                            console.log("Contato não atualizado")
+                            await direcionarAudience(target, idCampaing);
                         }
+
+                        if (consultaTargetInBD && target.reasonCode && target.reasonCode != undefined && consultaTargetInBD.codigo_motivo != target.reasonCode) {
+                            await direcionarAudience(target, idCampaing);
+                        }
+
+                        if (consultaTargetInBD && target.reasonDescription && target.reasonDescription != undefined && consultaTargetInBD.descricao_motivo != target.reasonDescription) {
+                            await direcionarAudience(target, idCampaing);
+                        }
+
+                        if (consultaTargetInBD && target.processed != undefined && consultaTargetInBD.processada_em != target.processed) {
+                            await direcionarAudience(target, idCampaing);
+                        }
+
+                        if (consultaTargetInBD && target.failed && target.failed != undefined && consultaTargetInBD.processada_em != target.failed) {
+                            await direcionarAudience(target, idCampaing);
+                        }
+
+
+                        console.log("Target atualizado ✅")
                     }
                 }
-            } 
+            }
         }
     } catch (e: any) {
         console.log(e)
@@ -47,8 +64,11 @@ export async function WorkerCampaingsUpdate() {
 interface TargetsTheOfAudience {
     "recipientIdentity": string,
     "status": string,
-    "processed": string,
-    "numberStatus": string
+    "processed": Date,
+    "failed"?: Date,
+    "numberStatus": string,
+    "reasonDescription"?: string,
+    "reasonCode"?: number
 }
 
 const target = {
@@ -94,3 +114,54 @@ const targets = [
         "status": "executed"
     }
 ]
+
+async function direcionarAudience(target: any, idCampaing: string) {
+    try {
+        let resultUpdateTarget;
+        if (target.status == "FAILED") {
+            resultUpdateTarget = await updateTarget(
+                target.recipientIdentity,
+                idCampaing,
+                target.status,
+                target.reasonCode ?? 0,
+                target.reasonDescription ?? "",
+                target.failed
+            );
+            console.log("Caiu no 1️⃣")
+        } else if (target.status == "READ") {
+            resultUpdateTarget = await updateTarget(
+                target.recipientIdentity,
+                idCampaing,
+                target.status,
+                target.reasonCode ?? 0,
+                target.reasonDescription ?? "",
+                target.processed
+            );
+            console.log("Caiu no 1️2️⃣")
+        } else if (target.status == "RECEIVED") {
+            resultUpdateTarget = await updateTarget(
+                target.recipientIdentity,
+                idCampaing,
+                target.status,
+                target.reasonCode ?? 0,
+                target.reasonDescription ?? "",
+                target.processed
+            );
+            console.log("Caiu no 3️⃣")
+        } else {
+            resultUpdateTarget = await updateTarget(
+                target.recipientIdentity,
+                idCampaing,
+                target.status,
+                target.reasonCode ?? 0,
+                target.reasonDescription ?? "",
+                target.processed
+            );
+
+            console.log("Caiu no 3️⃣")
+        }
+    } catch (e: any) {
+        console.log(e);
+        return false
+    }
+}

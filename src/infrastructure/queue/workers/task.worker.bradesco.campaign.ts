@@ -6,7 +6,7 @@ import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
 import { BodyToCampaing, Components, Students, Targets } from "../../../application/interfaces/BodyToCampaing.js";
 import { SendCampaing } from "../../http/blip/SendCampaing.js";
 import { createCampanha } from "../../database/campaing/Camaping.js";
-import { createCacheAudiencia } from "../../database/campaing/Camaping.js";
+import { createCacheAudiencia } from "../../database/audience/Audience.js";
 
 /* =======================
    START WORKER

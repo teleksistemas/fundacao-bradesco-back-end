@@ -84,7 +84,7 @@ model Disparos {
 }
 
 model Logs {
-  id_disparos        Int      @id @unique @default(autoincrement())
+  id_log             Int      @id @unique @default(autoincrement())
   data_log           DateTime @default(now())
   servico_solicitado String
   usuario_disparo    String

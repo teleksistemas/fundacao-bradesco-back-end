@@ -1,0 +1,76 @@
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'FAILED',
+  reasonCode: 1602,
+  reasonDescription: 'The message recipient was in attendance',
+  failed: '2026-01-11T21: 41: 11.420Z',
+  numberStatus: 'VALID'
+}
+Caiu no 1️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534996308225@wa.gw.msging.net',
+  status: 'PROCESSED',
+  processed: '2026-01-11T21: 57: 49.200Z',
+  numberStatus: 'VALID'
+}
+Caiu no 3️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'PROCESSED',
+  processed: '2026-01-11T21: 57: 49.240Z',
+  numberStatus: 'VALID'
+}
+Caiu no 3️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'PROCESSED',
+  processed: '2026-01-11T22: 07: 56.700Z',
+  numberStatus: 'VALID'
+}
+Caiu no 3️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'PROCESSED',
+  processed: '2026-01-12T12: 35: 26.100Z',
+  numberStatus: 'VALID'
+}
+Caiu no 3️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'FAILED',
+  reasonCode: 81,
+  reasonDescription: 'WhatsApp API response status code does not indicate success: 400 (BadRequest). Error: (#131008) Required parameter is missing: Parameter of type text is missing text value',
+  processed: '2026-01-12T12: 51: 24.550Z',
+  failed: '2026-01-12T12: 51: 25.090Z',
+  numberStatus: 'VALID'
+}
+Caiu no 1️⃣
+Caiu no 1️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'FAILED',
+  reasonCode: 81,
+  reasonDescription: 'WhatsApp API response status code does not indicate success: 400 (BadRequest). Error: (#131008) Required parameter is missing: Parameter of type text is missing text value',
+  processed: '2026-01-12T12: 52: 07.060Z',
+  failed: '2026-01-12T12: 52: 07.390Z',
+  numberStatus: 'VALID'
+}
+Caiu no 1️⃣
+Caiu no 1️⃣
+Target atualizado ✅
+{
+  recipientIdentity: '5534997801829@wa.gw.msging.net',
+  status: 'FAILED',
+  reasonCode: 81,
+  reasonDescription: 'WhatsApp API response status code does not indicate success: 400 (BadRequest). Error: (#131008) Required parameter is missing: Parameter of type text is missing text value',
+  processed: '2026-01-12T12: 53: 07.090Z',
+  failed: '2026-01-12T12: 53: 07.330Z',
+  numberStatus: 'VALID'
+}
+C

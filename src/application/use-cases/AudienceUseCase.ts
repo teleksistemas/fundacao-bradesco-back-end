@@ -1,23 +1,23 @@
 
-import { CampaingByIdJuncao } from "../../infrastructure/database/campaing/Camaping.js";
+import { AudienceByIdCampaing } from "../../infrastructure/database/audience/Audience.js";
 import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola.js";
 
-export async function CampaingUseCase(token_acess: string) {
+export async function AudienceUseCase(token_acess: string, idCamapnha: string) {
     try {
         const getSchoolByTokenAcess = await EscolaByTokenAcess(token_acess);
 
         if (!getSchoolByTokenAcess || !getSchoolByTokenAcess.id_juncao) {
             return {
                 success: false,
-                message: "Escola não encontrada para coletar campanhas",
+                message: "Escola não encontrada para coletar audiencias",
                 data: {}
             }
         }
-
-        const getCampaingsByIdJuncao = await CampaingByIdJuncao(getSchoolByTokenAcess.id_juncao);
+        
+        const getCampaingsByIdJuncao = await AudienceByIdCampaing(idCamapnha, getSchoolByTokenAcess.id_juncao);
         return {
             success: true,
-            message: "Camapnhas capturadas com sucesso",
+            message: "Audiencias capturadas com sucesso",
             data: getCampaingsByIdJuncao
         }
     } catch (e: any) {
