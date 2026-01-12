@@ -8,9 +8,9 @@ export async function Escola(token: string) {
             }
         })
 
-        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? null, escola?.token_acess ?? null);
+        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? "", escola?.token_acess ?? "");
     } catch (e) {
-        return new EscolaResult(null, null, null, null, null);
+        return new EscolaResult(null, null, null, "", "");
     }
 }
 
@@ -22,9 +22,9 @@ export async function EscolaByIdJuncao(id_juncao: string) {
             }
         })
 
-        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? null, escola?.token_acess ?? null);
+        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? "", escola?.token_acess ?? "");
     } catch (e) {
-        return new EscolaResult(null, null, null, null, null);
+        return new EscolaResult(null, null, null, "", "");
     }
 }
 
@@ -37,9 +37,9 @@ export async function EscolaByTokenAcess(token_acess: string) {
             }
         })
 
-        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? null, escola?.token_acess ?? null);
+        return new EscolaResult(escola?.id_juncao ?? null, escola?.nome_escola ?? null, escola?.numero_escola ?? null, escola?.token_router ?? "", escola?.token_acess ?? "", escola?.id_escola ?? null);
     } catch (e) {
-        return new EscolaResult(null, null, null, null, null);
+        return new EscolaResult(null, null, null, "", "");
     }
 }
 
@@ -48,7 +48,8 @@ export class EscolaResult {
         public readonly id_juncao: string | null,
         public readonly nome_escola: string | null,
         public readonly numero_escola: string | null,
-        public readonly token_router?: string | null,
-        public readonly token_acess?: string | null
+        public readonly token_router: string,
+        public readonly token_acess?: string,
+        public readonly id_escola?: number | null 
     ) { }
 }

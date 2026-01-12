@@ -54,15 +54,10 @@ model CacheAudiencia {
   recebida_em        DateTime?
   lida_em            DateTime?
   final              Boolean       @default(false)
-  id_aluno           Int?
-  id_responsavel     Int?
-  id_turma           Int?
-  id_escola          Int?
   nome_aluno         String?
   nome_responsavel   String?
   nome_escola        String?
   nome_turma         String?
-  nome_serie         String?
   criado_em          DateTime      @default(now())
   atualizado_em      DateTime      @updatedAt
   campanha           CacheCampanha @relation(fields: [id_campanha], references: [id_campanha])
@@ -71,10 +66,6 @@ model CacheAudiencia {
   @@index([id_juncao])
   @@index([msisdn])
   @@index([status])
-  @@index([id_escola])
-  @@index([id_turma])
-  @@index([id_aluno])
-  @@index([id_responsavel])
   @@map("cache_audiencia")
 }
 

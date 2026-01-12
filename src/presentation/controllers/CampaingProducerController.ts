@@ -4,7 +4,7 @@ export async function CampaingProducerController(req: any, res: any) {
   try {
     const bodyToCampaing = req.body;
     console.log(bodyToCampaing)
-    if (!bodyToCampaing.body.messaging_product || !bodyToCampaing.body.recipient_type || !bodyToCampaing.body.template || !bodyToCampaing.body.to || !bodyToCampaing.type) {
+    if (!bodyToCampaing.contatosToDisparo || !bodyToCampaing.components || !bodyToCampaing.nameTamplate || !bodyToCampaing.token_acess) {
       return res.status(401).json({
         status: false,
         message: "Erro ao inserir na fila de disparo pois esta faltando dados no corpo da req.",

@@ -19,9 +19,9 @@ export async function GetDataCampaing(idCampanhaBlip: string, token: string) {
         );
 
         return {
-            success: status == 200 ? true : false,
-            message: "Erro interno no servidor",
-            data: data
+            success: data.status == "success" ? true : false,
+            message: data.status == "success" ? "Campanha coletada com sucesso" : "Erro interno no servidor",
+            data: data.status == "success" ? data.resource.items : data
         }
     } catch (e: any) {
         return {

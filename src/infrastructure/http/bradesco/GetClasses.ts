@@ -16,11 +16,9 @@ export async function GetClasses(token_acess: string, segment: string, classCode
       }
     }
 
-    // resultSearchEschool.id_juncao depois ajustar para pegar id da escola
-    const numeroTeste = 15
     const baseUrl = process.env.BASEURL
 
-    const { data, status } = await axios.get(`${baseUrl}/api/school-people/schools/${numeroTeste}/classes?segment=${segment}&classCode=${classCode}&serie=${serie}`,
+    const { data, status } = await axios.get(`${baseUrl}/api/school-people/schools/${resultSearchEschool.id_juncao}/classes?segment=${segment}&classCode=${classCode}&serie=${serie}`,
       {
         headers: {
           "Authorization": resultGetAcessApi.token,

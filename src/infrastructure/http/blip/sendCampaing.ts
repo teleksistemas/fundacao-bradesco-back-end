@@ -1,29 +1,27 @@
-// import axios from "axios";
-// import { BodyToSendCampaign } from "../../interfaces/BodySendToCampaing";
+import axios from "axios";
 
-// export const sendCampaing = async (body: BodyToSendCampaign) => {
-//     try {
-//         const tokenMeta = process.env.TOKEN_META;
-//         const urlMeta = process.env.URL_META ?? "https://graph.facebook.com/v23.0/872884792582393/message_templates";
-//         const responseSend = await axios.post(urlMeta,
-//             body,
-//             {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "Authorization": `Bearer ${tokenMeta}`
-//                 }
-//             }
-//         )
-//         return {
-//             status: responseSend.status,
-//             data: JSON.stringify(responseSend.data)
-//         }
+export async function SendCampaing(payload: any, token: string) {
+    try {
+        const { data, status } = await axios.post(`https://bradesco.http.msging.net/commands`,
+            JSON.stringify(payload),
+            {
+                headers: {
+                    "Authorization": `${token}`,
+                    "Content-Type": "application/json",
+                }
+            }
+        );
 
-//     } catch (e) {
-//         console.log(`❌ Erro ao requisitar meta campaing: ${JSON.stringify(e)}`)
-//         return {
-//             status: 500,
-//             data: JSON.stringify(e)
-//         }
-//     }
-// }
+        return {
+            success: data.status != "failure" ? 200 : 400,
+            message: data.status != "failure" ? "Sucesso ao disparar" : "Erro ao fazer disparo",
+            data: data.status != "failure" ? data.resource : data
+        }
+    } catch (e: any) {
+        return {
+            success: false,
+            message: "Erro interno no servidor",
+            data: e
+        }
+    }
+}
