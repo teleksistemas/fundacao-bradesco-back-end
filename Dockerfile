@@ -1,25 +1,19 @@
+FROM node:23
 
-
-# ====== ETAPA 1: BUILD ======
-FROM node:20-alpine AS build
-
-WORKDIR /app
+# Cria e entra na pasta do app
+WORKDIR /usr/app
 
 COPY package*.json ./
-RUN npm ci
+
+
+RUN npm install
+
 
 COPY . .
-RUN npm run build
 
-# ====== ETAPA 2: RODAR ======
-FROM node:20-alpine
-
-WORKDIR /app
-
-COPY --from=build /app/dist ./dist
-COPY package*.json ./
+RUN npx prisma generate
 
 EXPOSE 5046
 
-# Define the command to run the application
+
 CMD ["npm", "start"]
