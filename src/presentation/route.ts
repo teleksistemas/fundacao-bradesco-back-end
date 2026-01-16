@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
-import { CampaingProducerController } from "./controllers/CampaingProducerController.js";
-import { LoginController } from "./controllers/LoginController.js";
-import { ClassesController } from "./controllers/ClassesController.js";
-import { SegmentsController } from "./controllers/SegmentsController.js";
-import { TempleteController } from "./controllers/TempleteController.js";
-import { scheduler } from "./controllers/Scheduler.js";
-import { CampaingController } from "./controllers/CampaingController.js";
-import { AudineceController } from "./controllers/AudineceController.js";
+import { CampaingProducerController } from "./controllers/CampaingProducerController";
+import { LoginController } from "./controllers/LoginController";
+import { ClassesController } from "./controllers/ClassesController";
+import { SegmentsController } from "./controllers/SegmentsController";
+import { TempleteController } from "./controllers/TempleteController";
+import { scheduler } from "./controllers/Scheduler";
+import { CampaingController } from "./controllers/CampaingController";
+import { AudineceController } from "./controllers/AudineceController";
 
 const routes = express();
 

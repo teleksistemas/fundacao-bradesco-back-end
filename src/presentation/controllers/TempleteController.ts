@@ -1,4 +1,4 @@
-import { TempleteUseCase } from "../../application/use-cases/TempleteUseCase.js"
+import { TempleteUseCase } from "../../application/use-cases/TempleteUseCase"
 
 
 export async function TempleteController(req: any, res: any) {
