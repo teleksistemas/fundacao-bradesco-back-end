@@ -1,19 +1,23 @@
-FROM node:20.19-alpine
+# Imagem base Node
+FROM node:20-alpine
 
-# Cria e entra na pasta do app
-WORKDIR /usr/app
+# Diretório da aplicação
+WORKDIR /app
 
+# Copia package.json e lock
 COPY package*.json ./
 
+# Instala dependências
+RUN npm install
 
-RUN npm i
-
-
+# Copia o resto do projeto
 COPY . .
 
-RUN npx prisma generate
+# Compila o TypeScript
+RUN npm run build
 
+# Expõe a porta do Express (mude se usar outra)
 EXPOSE 5046
 
-
-CMD ["npm", "dev"]
+# Inicia a aplicação
+CMD ["npm", "dev"] 
