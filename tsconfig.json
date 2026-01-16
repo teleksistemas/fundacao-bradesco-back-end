@@ -2,8 +2,18 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",
-    "target": "ES2023",
+    "target": "ES2020",
     "strict": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "baseUrl": "."
+  },
+  "include": [
+    "src/**/*",
+    "generated/**/*",
+    "lib/**/*",
+    "index.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

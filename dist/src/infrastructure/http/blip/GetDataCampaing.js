@@ -1,15 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetDataCampaing = GetDataCampaing;
-const axios_1 = __importDefault(require("axios"));
-const uuid_1 = require("uuid");
-async function GetDataCampaing(idCampanhaBlip, token) {
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+export async function GetDataCampaing(idCampanhaBlip, token) {
     try {
-        const { data, status } = await axios_1.default.post(`https://bradesco.http.msging.net/commands`, {
-            id: (0, uuid_1.v4)(),
+        const { data, status } = await axios.post(`https://bradesco.http.msging.net/commands`, {
+            id: uuidv4(),
             to: "postmaster@activecampaign.msging.net",
             method: "get",
             uri: `/campaigns/${idCampanhaBlip}/summaries`,

@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CampaingUseCase = CampaingUseCase;
-const Camaping_1 = require("../../infrastructure/database/campaing/Camaping");
-const Escola_1 = require("../../infrastructure/database/escola/Escola");
-async function CampaingUseCase(token_acess) {
+import { CampaingByIdJuncao } from "../../infrastructure/database/campaing/Camaping";
+import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola";
+export async function CampaingUseCase(token_acess) {
     try {
-        const getSchoolByTokenAcess = await (0, Escola_1.EscolaByTokenAcess)(token_acess);
+        const getSchoolByTokenAcess = await EscolaByTokenAcess(token_acess);
         if (!getSchoolByTokenAcess || !getSchoolByTokenAcess.id_juncao) {
             return {
                 success: false,
@@ -13,7 +10,7 @@ async function CampaingUseCase(token_acess) {
                 data: []
             };
         }
-        const getCampaingsByIdJuncao = await (0, Camaping_1.CampaingByIdJuncao)(getSchoolByTokenAcess.id_juncao);
+        const getCampaingsByIdJuncao = await CampaingByIdJuncao(getSchoolByTokenAcess.id_juncao);
         return {
             success: true,
             message: "Camapnhas capturadas com sucesso",

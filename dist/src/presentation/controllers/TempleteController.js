@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TempleteController = TempleteController;
-const TempleteUseCase_js_1 = require("../../application/use-cases/TempleteUseCase.js");
-async function TempleteController(req, res) {
+import { TempleteUseCase } from "../../application/use-cases/TempleteUseCase";
+export async function TempleteController(req, res) {
     try {
         const { authorization, token_acess, role } = req.headers;
         if (authorization !== process.env.VERIFY_TOKEN) {
@@ -14,7 +11,7 @@ async function TempleteController(req, res) {
         // if (!role || typeof role != "string") {
         //   return res.status(403).end("Necessário do role no header")
         // }
-        const resultTempleteUseCase = await (0, TempleteUseCase_js_1.TempleteUseCase)(token_acess);
+        const resultTempleteUseCase = await TempleteUseCase(token_acess);
         return res.status(resultTempleteUseCase.success == true ? 200 : 400).json(resultTempleteUseCase);
     }
     catch (e) {

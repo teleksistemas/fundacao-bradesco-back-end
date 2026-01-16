@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AudineceController = AudineceController;
-const AudienceUseCase_js_1 = require("../../application/use-cases/AudienceUseCase.js");
-async function AudineceController(req, res) {
+import { AudienceUseCase } from "../../application/use-cases/AudienceUseCase";
+export async function AudineceController(req, res) {
     try {
         const { authorization, token_acess } = req.headers;
         const { idCamapnha } = req.query;
@@ -27,7 +24,7 @@ async function AudineceController(req, res) {
                 data: []
             });
         }
-        const resultGetAudience = await (0, AudienceUseCase_js_1.AudienceUseCase)(token_acess, idCamapnha);
+        const resultGetAudience = await AudienceUseCase(token_acess, idCamapnha);
         return res.status(resultGetAudience.success ? 200 : 400).json(resultGetAudience);
     }
     catch (e) {

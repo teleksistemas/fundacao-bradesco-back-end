@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SendCampaing = SendCampaing;
-const axios_1 = __importDefault(require("axios"));
-async function SendCampaing(payload, token) {
+import axios from "axios";
+export async function SendCampaing(payload, token) {
     try {
         console.log(JSON.stringify(payload));
-        const { data, status } = await axios_1.default.post(`https://bradesco.http.msging.net/commands`, JSON.stringify(payload), {
+        const { data, status } = await axios.post(`https://bradesco.http.msging.net/commands`, JSON.stringify(payload), {
             headers: {
                 "Authorization": `${token}`,
                 "Content-Type": "application/json",

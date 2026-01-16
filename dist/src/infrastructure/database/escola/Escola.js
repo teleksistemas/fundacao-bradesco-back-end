@@ -1,13 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EscolaResult = void 0;
-exports.Escola = Escola;
-exports.EscolaByIdJuncao = EscolaByIdJuncao;
-exports.EscolaByTokenAcess = EscolaByTokenAcess;
-const prisma_1 = require("../prisma");
-async function Escola(token) {
+import { prisma } from '../../../../lib/prisma';
+export async function Escola(token) {
     try {
-        const escola = await prisma_1.prisma.escola.findFirst({
+        const escola = await prisma.escola.findFirst({
             where: {
                 token_acess: token
             }
@@ -18,9 +12,9 @@ async function Escola(token) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-async function EscolaByIdJuncao(id_juncao) {
+export async function EscolaByIdJuncao(id_juncao) {
     try {
-        const escola = await prisma_1.prisma.escola.findFirst({
+        const escola = await prisma.escola.findFirst({
             where: {
                 id_juncao
             }
@@ -31,9 +25,9 @@ async function EscolaByIdJuncao(id_juncao) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-async function EscolaByTokenAcess(token_acess) {
+export async function EscolaByTokenAcess(token_acess) {
     try {
-        const escola = await prisma_1.prisma.escola.findFirst({
+        const escola = await prisma.escola.findFirst({
             where: {
                 token_acess
             }
@@ -44,13 +38,7 @@ async function EscolaByTokenAcess(token_acess) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-class EscolaResult {
-    id_juncao;
-    nome_escola;
-    numero_escola;
-    token_router;
-    token_acess;
-    id_escola;
+export class EscolaResult {
     constructor(id_juncao, nome_escola, numero_escola, token_router, token_acess, id_escola) {
         this.id_juncao = id_juncao;
         this.nome_escola = nome_escola;
@@ -60,4 +48,3 @@ class EscolaResult {
         this.id_escola = id_escola;
     }
 }
-exports.EscolaResult = EscolaResult;

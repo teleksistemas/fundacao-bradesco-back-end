@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.startTaskWorkerCampaign = startTaskWorkerCampaign;
-const uuid_1 = require("uuid");
-const connection_rabbitmg_1 = require("../connection.rabbitmg");
-const Escola_1 = require("../../database/escola/Escola");
-const SendCampaing_1 = require("../../http/blip/SendCampaing");
-const Camaping_1 = require("../../database/campaing/Camaping");
-const Audience_1 = require("../../database/audience/Audience");
+import { v4 as uuidv4 } from "uuid";
+import { getConectionTheChannel } from '../connection.rabbitmg';
+import { EscolaByTokenAcess } from "../../database/escola/Escola";
+import { SendCampaing } from "../../http/blip/sendCampaing";
+import { createCampanha } from "../../database/campaing/Camaping";
+import { createCacheAudiencia } from "../../database/audience/Audience";
 /* =======================
    START WORKER
 ======================= */
-async function startTaskWorkerCampaign() {
-    const channel = (0, connection_rabbitmg_1.getConectionTheChannel)();
+export async function startTaskWorkerCampaign() {
+    const channel = getConectionTheChannel();
     const queue = 'task.bradesco.campaign.create';
     const dlq = 'task.bradesco.campaign.dlq';
     await channel.assertQueue(dlq, { durable: true });
@@ -27,9 +24,9 @@ async function startTaskWorkerCampaign() {
         const bodyCampaign = JSON.parse(msg.content.toString());
         try {
             console.log(JSON.stringify(bodyCampaign));
-            const schoolTargets = await (0, Escola_1.EscolaByTokenAcess)(bodyCampaign.token_acess);
+            const schoolTargets = await EscolaByTokenAcess(bodyCampaign.token_acess);
             const payload = await modelarPayloadParaDisparo(bodyCampaign.nameTamplate, schoolTargets.nome_escola ?? "Fundação Bradesco", bodyCampaign.contatosToDisparo, bodyCampaign.components);
-            const sendCampaingToBlip = await (0, SendCampaing_1.SendCampaing)(payload, schoolTargets.token_router);
+            const sendCampaingToBlip = await SendCampaing(payload, schoolTargets.token_router);
             console.log(sendCampaingToBlip);
             if (sendCampaingToBlip.success) {
                 const data = {
@@ -41,7 +38,7 @@ async function startTaskWorkerCampaign() {
                     data_envio: new Date(),
                     total_audiencia: payload.resource.audiences.length || 0
                 };
-                await (0, Camaping_1.createCampanha)(data, bodyCampaign.usuario_name);
+                await createCampanha(data, bodyCampaign.usuario_name);
             }
             if (sendCampaingToBlip.success) {
                 const listaDeTargets = bodyCampaign.contatosToDisparo;
@@ -58,7 +55,7 @@ async function startTaskWorkerCampaign() {
                         nome_escola: schoolTargets.nome_escola || null,
                         nome_turma: target.student.description || null
                     };
-                    const criandoTargetDaCampanha = await (0, Audience_1.createCacheAudiencia)(data);
+                    const criandoTargetDaCampanha = await createCacheAudiencia(data);
                     console.log(criandoTargetDaCampanha);
                 }
                 console.log("✅ Mensagem enviada com sucesso");
@@ -83,11 +80,11 @@ const modelarPayloadParaDisparo = async (nameTamplate, nomeEscola, targets, comp
     const flowId = process.env.FLOW_ID_BLIP;
     const masterState = process.env.MASTER_STATE_BLIP;
     const timestamp = Date.now();
-    const guid = (0, uuid_1.v4)();
+    const guid = uuidv4();
     const nomeCampanha = `${nomeEscola}_Group_${timestamp}_${guid}`;
     const audiences = await modelarAudience(targets, components);
     return {
-        id: (0, uuid_1.v4)(),
+        id: uuidv4(),
         to: "postmaster@activecampaign.msging.net",
         method: "set",
         uri: "/campaign/full",

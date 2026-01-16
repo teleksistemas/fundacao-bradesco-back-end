@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetTempletes = GetTempletes;
-const axios_1 = __importDefault(require("axios"));
-const uuid_1 = require("uuid");
-const Escola_1 = require("../../../infrastructure/database/escola/Escola");
-async function GetTempletes(token_acess) {
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import { EscolaByTokenAcess } from "../../../infrastructure/database/escola/Escola.js";
+export async function GetTempletes(token_acess) {
     try {
         console.log(token_acess);
-        const tokenRoteador = await (0, Escola_1.EscolaByTokenAcess)(token_acess);
+        const tokenRoteador = await EscolaByTokenAcess(token_acess);
         console.log(tokenRoteador);
         if (!tokenRoteador.token_acess) {
             return {
@@ -21,12 +15,12 @@ async function GetTempletes(token_acess) {
         }
         console.log(tokenRoteador);
         const bodyToRequest = {
-            "id": (0, uuid_1.v4)(),
+            "id": uuidv4(),
             "to": "postmaster@wa.gw.msging.net",
             "method": "get",
             "uri": "/message-templates"
         };
-        const { data, status } = await axios_1.default.post("https://bradesco.http.msging.net/commands", bodyToRequest, {
+        const { data, status } = await axios.post("https://bradesco.http.msging.net/commands", bodyToRequest, {
             headers: {
                 "Authorization": tokenRoteador.token_router
             }

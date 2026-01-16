@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CampaingController = CampaingController;
-const CampaingUseCase_js_1 = require("../../application/use-cases/CampaingUseCase.js");
-async function CampaingController(req, res) {
+import { CampaingUseCase } from "../../application/use-cases/CampaingUseCase";
+export async function CampaingController(req, res) {
     try {
         const { authorization, token_acess } = req.headers;
         if (authorization !== process.env.VERIFY_TOKEN) {
@@ -11,7 +8,7 @@ async function CampaingController(req, res) {
         if (!token_acess || typeof token_acess != "string") {
             return res.status(403).end("Necessário do token_acess no header");
         }
-        const resultGetCampaings = await (0, CampaingUseCase_js_1.CampaingUseCase)(token_acess);
+        const resultGetCampaings = await CampaingUseCase(token_acess);
         return res.status(resultGetCampaings.success ? 200 : 400).json(resultGetCampaings);
     }
     catch (e) {

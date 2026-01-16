@@ -1,23 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Audience = Audience;
-exports.AudienceByIdCampaing = AudienceByIdCampaing;
-exports.createCacheAudiencia = createCacheAudiencia;
-exports.searchCacheAudienciaToTarget = searchCacheAudienciaToTarget;
-exports.updateTarget = updateTarget;
-const prisma_1 = require("../prisma");
-async function Audience() {
+import { prisma } from '../../../../lib/prisma';
+export async function Audience() {
     try {
-        const campaign = await prisma_1.prisma.cacheCampanha.findMany();
+        const campaign = await prisma.cacheCampanha.findMany();
         return campaign;
     }
     catch (e) {
         return [];
     }
 }
-async function AudienceByIdCampaing(id_campanha, id_juncao) {
+export async function AudienceByIdCampaing(id_campanha, id_juncao) {
     try {
-        const campaign = await prisma_1.prisma.cacheAudiencia.findMany({
+        const campaign = await prisma.cacheAudiencia.findMany({
             where: {
                 id_campanha,
                 id_juncao
@@ -29,7 +22,7 @@ async function AudienceByIdCampaing(id_campanha, id_juncao) {
         return [];
     }
 }
-async function createCacheAudiencia(body) {
+export async function createCacheAudiencia(body) {
     try {
         const data = {
             id_campanha: body.id_campanha,
@@ -42,7 +35,7 @@ async function createCacheAudiencia(body) {
             nome_escola: body.nome_escola || null,
             nome_turma: body.nome_turma || null
         };
-        await prisma_1.prisma.cacheAudiencia.create({ data });
+        await prisma.cacheAudiencia.create({ data });
         return true;
     }
     catch (error) {
@@ -53,9 +46,9 @@ async function createCacheAudiencia(body) {
         return false;
     }
 }
-async function searchCacheAudienciaToTarget(target, idCampaing) {
+export async function searchCacheAudienciaToTarget(target, idCampaing) {
     try {
-        const resultTargetCacheAudience = await prisma_1.prisma.cacheAudiencia.findFirst({
+        const resultTargetCacheAudience = await prisma.cacheAudiencia.findFirst({
             where: {
                 identidade_destino: target,
                 id_campanha: idCampaing
@@ -67,7 +60,7 @@ async function searchCacheAudienciaToTarget(target, idCampaing) {
         return false;
     }
 }
-async function updateTarget(target, idCampaing, status, codigo_motivo, descricao_motivo, processada_em) {
+export async function updateTarget(target, idCampaing, status, codigo_motivo, descricao_motivo, processada_em) {
     console.log(`Acessou UPDATE com ${status}`);
     try {
         let data;
@@ -105,7 +98,7 @@ async function updateTarget(target, idCampaing, status, codigo_motivo, descricao
                 processada_em
             };
         }
-        const resultTargetCacheAudience = await prisma_1.prisma.cacheAudiencia.update({
+        const resultTargetCacheAudience = await prisma.cacheAudiencia.update({
             where: {
                 id_campanha_identidade_destino: {
                     id_campanha: idCampaing,

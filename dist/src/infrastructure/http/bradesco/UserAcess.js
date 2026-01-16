@@ -1,17 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserAcess = UserAcess;
-const axios_1 = __importDefault(require("axios"));
-const Escola_1 = require("../../database/escola/Escola");
+import axios from "axios";
+import { EscolaByIdJuncao } from "../../database/escola/Escola";
 const chavesDeTeste = ["telekmarilia", "telekjaboatao", "telekjardimconceicao", "telekriodejaneiro", "telekmanaus", "telekmanaus", "teleksalvador", "teleknatal", "teleksaoluis", "telekteresina", "telekadmin", "telek"];
-async function UserAcess(token) {
+export async function UserAcess(token) {
     try {
         if (chavesDeTeste.includes(token)) {
             const dadosDeTeste = dadosParaTeste[token];
-            const getTokenAcessSchool = await (0, Escola_1.EscolaByIdJuncao)(dadosDeTeste.complemento.Juncao);
+            const getTokenAcessSchool = await EscolaByIdJuncao(dadosDeTeste.complemento.Juncao);
             return {
                 status: true,
                 data: dadosDeTeste.complemento,
@@ -19,14 +13,14 @@ async function UserAcess(token) {
                 menssage: "Usuario indentificado com sucesso"
             };
         }
-        const { data, status } = await axios_1.default.post("https://api.fb.org.br/sessao/TokenValidar", {
+        const { data, status } = await axios.post("https://api.fb.org.br/sessao/TokenValidar", {
             "Token": token
         }, {
             headers: {
                 "x-api-token": "011BD439-D5B3-4C6D-A64D-32C5CC4A1B11"
             }
         });
-        const getTokenAcessSchool = await (0, Escola_1.EscolaByIdJuncao)(data.complemento.Juncao);
+        const getTokenAcessSchool = await EscolaByIdJuncao(data.complemento.Juncao);
         return {
             success: status == 200 ? true : false,
             data: status == 200 ? data?.complemento : [],

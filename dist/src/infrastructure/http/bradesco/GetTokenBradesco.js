@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetTokenBradesco = GetTokenBradesco;
-const axios_1 = __importDefault(require("axios"));
-async function GetTokenBradesco() {
+import axios from "axios";
+export async function GetTokenBradesco() {
     try {
         const client_id = process.env.CLIENTE_ID;
         const client_secret = process.env.CLIENTE_SECRET;
@@ -17,7 +11,7 @@ async function GetTokenBradesco() {
             client_secret: client_secret || "",
             scope: scope || ""
         }).toString();
-        const { data, status } = await axios_1.default.post(`https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token`, body, {
+        const { data, status } = await axios.post(`https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token`, body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
