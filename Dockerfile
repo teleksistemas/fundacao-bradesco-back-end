@@ -1,15 +1,25 @@
+
+
+# ====== ETAPA 1: BUILD ======
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# ====== ETAPA 2: RODAR ======
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copia tudo (inclusive a pasta dist já gerada)
-COPY . .
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
 
-# Instala dependências
-RUN npm install --production
-
-# Expõe sua porta
 EXPOSE 5046
 
-# Roda a aplicação
-CMD ["node", "dist/index.js"]
+# Define the command to run the application
+CMD ["npm", "start"]
