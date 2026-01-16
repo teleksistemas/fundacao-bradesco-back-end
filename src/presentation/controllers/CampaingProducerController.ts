@@ -1,4 +1,4 @@
-import { createTaskCampaignBradesco } from "../../infrastructure/queue/producers/task.producer.bradesco.campaign.js"
+import { createTaskCampaignBradesco } from "../../infrastructure/queue/producers/task.producer.bradesco.campaign"
 
 export async function CampaingProducerController(req: any, res: any) {
   try {

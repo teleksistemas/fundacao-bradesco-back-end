@@ -1,4 +1,4 @@
-import { ClassesUseCase } from "../../application/use-cases/ClassesUseCase.js"
+import { ClassesUseCase } from "../../application/use-cases/ClassesUseCase"
 
 export async function ClassesController(req: any, res: any) {
   try {

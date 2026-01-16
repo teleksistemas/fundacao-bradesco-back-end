@@ -1,31 +1,28 @@
-import { prisma } from '../../../../lib/prisma'
-
+import { prisma } from '../../../../lib/prisma';
 export async function Audience() {
     try {
-        const campaign = await prisma.cacheCampanha.findMany()
+        const campaign = await prisma.cacheCampanha.findMany();
         return campaign;
-    } catch (e) {
+    }
+    catch (e) {
         return [];
     }
 }
-
-export async function AudienceByIdCampaing(id_campanha: string, id_juncao: string) {
+export async function AudienceByIdCampaing(id_campanha, id_juncao) {
     try {
         const campaign = await prisma.cacheAudiencia.findMany({
             where: {
                 id_campanha,
                 id_juncao
             }
-        })
-
+        });
         return campaign;
-    } catch (e) {
+    }
+    catch (e) {
         return [];
     }
 }
-
-
-export async function createCacheAudiencia(body: any) {
+export async function createCacheAudiencia(body) {
     try {
         const data = {
             id_campanha: body.id_campanha,
@@ -37,20 +34,19 @@ export async function createCacheAudiencia(body: any) {
             nome_responsavel: body.nome_responsavel || null,
             nome_escola: body.nome_escola || null,
             nome_turma: body.nome_turma || null
-        }
-
-        await prisma.cacheAudiencia.create({ data })
-        return true
-    } catch (error: any) {
+        };
+        await prisma.cacheAudiencia.create({ data });
+        return true;
+    }
+    catch (error) {
         if (error.code === "P2002") {
             return false;
         }
-        console.error("Erro ao criar cache_audiencia:", error)
+        console.error("Erro ao criar cache_audiencia:", error);
         return false;
     }
 }
-
-export async function searchCacheAudienciaToTarget(target: string, idCampaing: string) {
+export async function searchCacheAudienciaToTarget(target, idCampaing) {
     try {
         const resultTargetCacheAudience = await prisma.cacheAudiencia.findFirst({
             where: {
@@ -58,23 +54,14 @@ export async function searchCacheAudienciaToTarget(target: string, idCampaing: s
                 id_campanha: idCampaing
             }
         });
-
         return resultTargetCacheAudience ? resultTargetCacheAudience : false;
-    } catch (e: any) {
+    }
+    catch (e) {
         return false;
     }
 }
-
-
-export async function updateTarget(
-    target: string,
-    idCampaing: string,
-    status: string,
-    codigo_motivo?: number,
-    descricao_motivo?: string,
-    processada_em?: Date
-) {
-    console.log(`Acessou UPDATE com ${status}`)
+export async function updateTarget(target, idCampaing, status, codigo_motivo, descricao_motivo, processada_em) {
+    console.log(`Acessou UPDATE com ${status}`);
     try {
         let data;
         if (status == "READ") {
@@ -84,32 +71,33 @@ export async function updateTarget(
                 descricao_motivo,
                 lida_em: processada_em,
                 final: true
-            }
-        } else if (status == "RECEIVED") {
+            };
+        }
+        else if (status == "RECEIVED") {
             data = {
                 status,
                 codigo_motivo,
                 descricao_motivo,
                 recebida_em: processada_em
-            }
-        } else if (status == "FAILED") {
+            };
+        }
+        else if (status == "FAILED") {
             data = {
                 status,
                 codigo_motivo,
                 descricao_motivo,
                 processada_em,
                 final: true
-            }
-
-        } else {
+            };
+        }
+        else {
             data = {
                 status,
                 codigo_motivo,
                 descricao_motivo,
                 processada_em
-            }
+            };
         }
-
         const resultTargetCacheAudience = await prisma.cacheAudiencia.update({
             where: {
                 id_campanha_identidade_destino: {
@@ -118,12 +106,10 @@ export async function updateTarget(
                 }
             },
             data
-        })
-
-        return resultTargetCacheAudience
-    } catch (e) {
-        return false
+        });
+        return resultTargetCacheAudience;
+    }
+    catch (e) {
+        return false;
     }
 }
-
-

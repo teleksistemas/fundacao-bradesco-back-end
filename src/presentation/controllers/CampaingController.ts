@@ -1,4 +1,4 @@
-import { CampaingUseCase } from "../../application/use-cases/CampaingUseCase.js"
+import { CampaingUseCase } from "../../application/use-cases/CampaingUseCase"
 
 export async function CampaingController(req: any, res: any) {
   try {

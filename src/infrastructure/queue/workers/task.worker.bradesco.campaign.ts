@@ -1,12 +1,12 @@
 
 
 import { v4 as uuidv4 } from "uuid";
-import { getConectionTheChannel } from '../connection.rabbitmg.js';
-import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
-import { BodyToCampaing, Components, Students, Targets } from "../../../application/interfaces/BodyToCampaing.js";
-import { SendCampaing } from "../../http/blip/SendCampaing.js";
-import { createCampanha } from "../../database/campaing/Camaping.js";
-import { createCacheAudiencia } from "../../database/audience/Audience.js";
+import { getConectionTheChannel } from '../connection.rabbitmg';
+import { EscolaByTokenAcess } from "../../database/escola/Escola";
+import { BodyToCampaing, Components, Students, Targets } from "../../../application/interfaces/BodyToCampaing";
+import { SendCampaing } from "../../http/blip/sendCampaing";
+import { createCampanha } from "../../database/campaing/Camaping";
+import { createCacheAudiencia } from "../../database/audience/Audience";
 
 /* =======================
    START WORKER

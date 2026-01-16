@@ -1,42 +1,34 @@
 import axios from "axios";
-import { EscolaByIdJuncao } from "../../database/escola/Escola"
-
-const chavesDeTeste = ["telekmarilia", "telekjaboatao", "telekjardimconceicao", "telekriodejaneiro", "telekmanaus", "telekmanaus", "teleksalvador", "teleknatal", "teleksaoluis", "telekteresina", "telekadmin", "telek"]
-
-export async function UserAcess(token: any) {
+import { EscolaByIdJuncao } from "../../database/escola/Escola";
+const chavesDeTeste = ["telekmarilia", "telekjaboatao", "telekjardimconceicao", "telekriodejaneiro", "telekmanaus", "telekmanaus", "teleksalvador", "teleknatal", "teleksaoluis", "telekteresina", "telekadmin", "telek"];
+export async function UserAcess(token) {
     try {
-
         if (chavesDeTeste.includes(token)) {
-            const dadosDeTeste = dadosParaTeste[token as keyof typeof dadosParaTeste];
+            const dadosDeTeste = dadosParaTeste[token];
             const getTokenAcessSchool = await EscolaByIdJuncao(dadosDeTeste.complemento.Juncao);
             return {
                 status: true,
                 data: dadosDeTeste.complemento,
                 token_acess: getTokenAcessSchool.token_acess,
                 menssage: "Usuario indentificado com sucesso"
-            }
+            };
         }
-
-        const { data, status } = await axios.post("https://api.fb.org.br/sessao/TokenValidar",
-            {
-                "Token": token
-            },
-            {
-                headers: {
-                    "x-api-token": "011BD439-D5B3-4C6D-A64D-32C5CC4A1B11"
-                }
+        const { data, status } = await axios.post("https://api.fb.org.br/sessao/TokenValidar", {
+            "Token": token
+        }, {
+            headers: {
+                "x-api-token": "011BD439-D5B3-4C6D-A64D-32C5CC4A1B11"
             }
-        );
-
+        });
         const getTokenAcessSchool = await EscolaByIdJuncao(data.complemento.Juncao);
         return {
             success: status == 200 ? true : false,
             data: status == 200 ? data?.complemento : [],
             token_acess: getTokenAcessSchool.token_acess,
             menssage: status == 200 ? "Usuario indentificado com sucesso" : "Usuario não indentificado",
-        }
-
-    } catch (e: any) {
+        };
+    }
+    catch (e) {
         return {
             success: false,
             data: [],
@@ -45,8 +37,6 @@ export async function UserAcess(token: any) {
         };
     }
 }
-
-
 const dadosParaTeste = {
     "telekmarilia": {
         "complemento": {
@@ -128,4 +118,4 @@ const dadosParaTeste = {
             "Perfil": "Developer",
         }
     }
-}
+};

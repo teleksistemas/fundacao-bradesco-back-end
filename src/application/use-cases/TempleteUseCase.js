@@ -1,15 +1,14 @@
 import { GetTempletes } from "../../infrastructure/http/blip/getTempletes";
-
-
-export async function TempleteUseCase(token_acess: string) {
+export async function TempleteUseCase(token_acess) {
     try {
         const resultGetTempletes = await GetTempletes(token_acess);
         return resultGetTempletes;
-    } catch (e: any) {
+    }
+    catch (e) {
         return {
             success: false,
             message: "Erro interno no servidor",
             data: []
-        }
+        };
     }
 }

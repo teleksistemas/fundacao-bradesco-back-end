@@ -1,43 +1,40 @@
-import { prisma } from '../../../../lib/prisma'
-
-
+import { prisma } from '../../../../lib/prisma';
 export async function Camaping() {
     try {
-        const campaign = await prisma.cacheCampanha.findMany()
+        const campaign = await prisma.cacheCampanha.findMany();
         return campaign;
-    } catch (e) {
+    }
+    catch (e) {
         return [];
     }
 }
-
-export async function CampaingByIdJuncao(id_juncao: string) {
+export async function CampaingByIdJuncao(id_juncao) {
     try {
         const campaign = await prisma.cacheCampanha.findMany({
             where: {
                 id_juncao
             }
-        })
-
+        });
         return campaign;
-    } catch (e) {
+    }
+    catch (e) {
         return [];
     }
 }
-
 export async function CamapingWithFinalizadaIstrue() {
     try {
         const campaign = await prisma.cacheCampanha.findMany({
             where: {
                 finalizada: false
             }
-        })
+        });
         return campaign;
-    } catch (e) {
+    }
+    catch (e) {
         return [];
     }
 }
-
-export async function createCampanha(body: any, nameUser: string) {
+export async function createCampanha(body, nameUser) {
     try {
         const data = {
             id_campanha: body.id_campanha,
@@ -48,18 +45,16 @@ export async function createCampanha(body: any, nameUser: string) {
             data_envio: new Date(),
             total_audiencia: body.total_audiencia || 0,
             name_user: nameUser
-        }
-
-        await prisma.cacheCampanha.create({ data })
+        };
+        await prisma.cacheCampanha.create({ data });
         return true;
-    } catch (e) {
-        console.error("Erro ao criar campanha:", e)
+    }
+    catch (e) {
+        console.error("Erro ao criar campanha:", e);
         return false;
     }
 }
-
-
-export async function atualizarFianlizadaCampanha(idCampaing: string) {
+export async function atualizarFianlizadaCampanha(idCampaing) {
     try {
         const resultTargetCacheAudience = await prisma.cacheCampanha.update({
             where: {
@@ -68,16 +63,14 @@ export async function atualizarFianlizadaCampanha(idCampaing: string) {
             data: {
                 finalizada: true
             }
-        })
-
-        return resultTargetCacheAudience
-    } catch (e: any) {
-        console.log(e)
+        });
+        return resultTargetCacheAudience;
+    }
+    catch (e) {
+        console.log(e);
     }
 }
-
-
-export async function atualizarDadosDeDisparoCampanha(idCampaing: string, qtd_recebidas: number, qtd_lidas: number, qtd_falhas: number) {
+export async function atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas) {
     try {
         const resultTargetCacheAudience = await prisma.cacheCampanha.update({
             where: {
@@ -88,11 +81,10 @@ export async function atualizarDadosDeDisparoCampanha(idCampaing: string, qtd_re
                 qtd_lidas,
                 qtd_falhas
             }
-        })
-
-        return resultTargetCacheAudience
-    } catch (e: any) {
-        console.log(e)
+        });
+        return resultTargetCacheAudience;
+    }
+    catch (e) {
+        console.log(e);
     }
 }
-
