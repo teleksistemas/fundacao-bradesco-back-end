@@ -1,4 +1,4 @@
-FROM node:23
+FROM node:20.19-alpine
 
 # Cria e entra na pasta do app
 WORKDIR /usr/app
@@ -6,7 +6,7 @@ WORKDIR /usr/app
 COPY package*.json ./
 
 
-RUN npm install
+RUN npm i
 
 
 COPY . .
