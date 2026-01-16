@@ -1,0 +1,63 @@
+[
+    {
+        "id_campanha": "c1089152-a122-414b-9382-b4989e612db5",
+        "id_juncao": "15",
+        "id_escola": 3,
+        "nome_campanha": "FB Telek_Group_1768534589018_98e04015-9f0d-4ba3-8dc8-0372e699bfb2",
+        "modelo_mensagem": "teste_box_fibra",
+        "data_envio": "2026-01-16T03:36:29.990Z",
+        "total_audiencia": 1,
+        "qtd_recebidas": 1,
+        "qtd_lidas": 0,
+        "qtd_falhas": 0,
+        "finalizada": false,
+        "ultima_verificacao": "2026-01-16T03:36:29.992Z",
+        "criado_em": "2026-01-16T03:36:29.992Z",
+        "atualizado_em": "2026-01-16T03:37:00.173Z"
+    }
+]
+{
+    "success": true,
+    "message": "Campanha coletada com sucesso",
+    "data": [
+        {
+            "id": "c1089152-a122-414b-9382-b4989e612db5",
+            "name": "FB Telek_Group_1768534589018_98e04015-9f0d-4ba3-8dc8-0372e699bfb2",
+            "messageTemplate": "teste_box_fibra",
+            "masterState": "boxfibraprincipal@msging.net",
+            "flowId": "228635ea-fc3a-4a6d-8f8e-468b190e7b17",
+            "stateId": "bdcab051-e1f8-4cbe-ac09-e8d4f18713e0",
+            "sendDate": "2026-01-16T03:36:28.750Z",
+            "statusAudience": [
+                {
+                    "recipientIdentity": "5534997801829@wa.gw.msging.net",
+                    "status": "PROCESSED",
+                    "processed": "2026-01-16T03:36:32.330Z",
+                    "numberStatus": "VALID"
+                }
+            ],
+            "channelType": "WHATSAPP",
+            "status": "executed"
+        }
+    ]
+}
+{
+    "id_cache_audiencia": 15,
+    "id_campanha": "c1089152-a122-414b-9382-b4989e612db5",
+    "id_juncao": "15",
+    "identidade_destino": "5534997801829@wa.gw.msging.net",
+    "msisdn": "5534997801829",
+    "status": "PROCESSED",
+    "codigo_motivo": null,
+    "descricao_motivo": null,
+    "processada_em": "2026-01-16T03:36:32.330Z",
+    "recebida_em": null,
+    "lida_em": null,
+    "final": false,
+    "nome_aluno": "Gabriel Lopes",
+    "nome_responsavel": "Bianca Lopes",
+    "nome_escola": "FB Telek",
+    "nome_turma": "1 ° Ano A",
+    "criado_em": "2026-01-16T03:36:30.016Z",
+    "atualizado_em": "2026-01-16T03:37:00.206Z"
+}

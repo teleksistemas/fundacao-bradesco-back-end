@@ -1,4 +1,4 @@
-import { UserAcess } from "../../infrastructure/http/bradesco/UserAcess";
+import { UserAcess } from "../../infrastructure/http/bradesco/UserAcess.js";
 
 interface AccessResponse<T> {
   success: boolean;

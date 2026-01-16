@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": ".",
     "outDir": "dist",
     "target": "ES2022",
     "module": "NodeNext",
@@ -10,6 +10,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["generated"]
+  "include": ["src/**/*", "generated/**/*"]
 }

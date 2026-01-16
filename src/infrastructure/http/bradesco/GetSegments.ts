@@ -1,7 +1,7 @@
 import axios from "axios"
 
-import { GetTokenBradesco } from "./GetTokenBradesco"
-import { EscolaByTokenAcess } from "../../database/escola/Escola";
+import { GetTokenBradesco } from "./GetTokenBradesco.js"
+import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
 
 export async function GetSegments(token_acess: string) {
   try {

@@ -1,4 +1,4 @@
-import { GetSegments } from "../../infrastructure/http/bradesco/GetSegments"
+import { GetSegments } from "../../infrastructure/http/bradesco/GetSegments.js"
 
 export async function SegmentsUseCase(token_acess: string) {
     try {
