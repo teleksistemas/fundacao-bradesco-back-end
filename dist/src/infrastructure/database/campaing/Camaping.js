@@ -1,16 +1,24 @@
-import { prisma } from '../prisma.js';
-export async function Camaping() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Camaping = Camaping;
+exports.CampaingByIdJuncao = CampaingByIdJuncao;
+exports.CamapingWithFinalizadaIstrue = CamapingWithFinalizadaIstrue;
+exports.createCampanha = createCampanha;
+exports.atualizarFianlizadaCampanha = atualizarFianlizadaCampanha;
+exports.atualizarDadosDeDisparoCampanha = atualizarDadosDeDisparoCampanha;
+const prisma_1 = require("../prisma");
+async function Camaping() {
     try {
-        const campaign = await prisma.cacheCampanha.findMany();
+        const campaign = await prisma_1.prisma.cacheCampanha.findMany();
         return campaign;
     }
     catch (e) {
         return [];
     }
 }
-export async function CampaingByIdJuncao(id_juncao) {
+async function CampaingByIdJuncao(id_juncao) {
     try {
-        const campaign = await prisma.cacheCampanha.findMany({
+        const campaign = await prisma_1.prisma.cacheCampanha.findMany({
             where: {
                 id_juncao
             }
@@ -21,9 +29,9 @@ export async function CampaingByIdJuncao(id_juncao) {
         return [];
     }
 }
-export async function CamapingWithFinalizadaIstrue() {
+async function CamapingWithFinalizadaIstrue() {
     try {
-        const campaign = await prisma.cacheCampanha.findMany({
+        const campaign = await prisma_1.prisma.cacheCampanha.findMany({
             where: {
                 finalizada: false
             }
@@ -34,7 +42,7 @@ export async function CamapingWithFinalizadaIstrue() {
         return [];
     }
 }
-export async function createCampanha(body, nameUser) {
+async function createCampanha(body, nameUser) {
     try {
         const data = {
             id_campanha: body.id_campanha,
@@ -46,7 +54,7 @@ export async function createCampanha(body, nameUser) {
             total_audiencia: body.total_audiencia || 0,
             name_user: nameUser
         };
-        await prisma.cacheCampanha.create({ data });
+        await prisma_1.prisma.cacheCampanha.create({ data });
         return true;
     }
     catch (e) {
@@ -54,9 +62,9 @@ export async function createCampanha(body, nameUser) {
         return false;
     }
 }
-export async function atualizarFianlizadaCampanha(idCampaing) {
+async function atualizarFianlizadaCampanha(idCampaing) {
     try {
-        const resultTargetCacheAudience = await prisma.cacheCampanha.update({
+        const resultTargetCacheAudience = await prisma_1.prisma.cacheCampanha.update({
             where: {
                 id_campanha: idCampaing
             },
@@ -70,9 +78,9 @@ export async function atualizarFianlizadaCampanha(idCampaing) {
         console.log(e);
     }
 }
-export async function atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas) {
+async function atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas) {
     try {
-        const resultTargetCacheAudience = await prisma.cacheCampanha.update({
+        const resultTargetCacheAudience = await prisma_1.prisma.cacheCampanha.update({
             where: {
                 id_campanha: idCampaing
             },

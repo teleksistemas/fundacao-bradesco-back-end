@@ -1,8 +1,8 @@
 
 
-import { getConectionTheChannel } from '../connection.rabbitmg.js';
-import { createLogs } from "../../database/logs/Logs.js";
-import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
+import { getConectionTheChannel } from '../connection.rabbitmg';
+import { createLogs } from "../../database/logs/Logs";
+import { EscolaByTokenAcess } from "../../database/escola/Escola";
 export async function createTaskCampaignBradesco(task: any) {
     const channel = getConectionTheChannel()
     console.log(`🔵 Serviço criado na fila campaing`);

@@ -1,7 +1,13 @@
-import { prisma } from '../prisma.js';
-export async function Escola(token) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EscolaResult = void 0;
+exports.Escola = Escola;
+exports.EscolaByIdJuncao = EscolaByIdJuncao;
+exports.EscolaByTokenAcess = EscolaByTokenAcess;
+const prisma_1 = require("../prisma");
+async function Escola(token) {
     try {
-        const escola = await prisma.escola.findFirst({
+        const escola = await prisma_1.prisma.escola.findFirst({
             where: {
                 token_acess: token
             }
@@ -12,9 +18,9 @@ export async function Escola(token) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-export async function EscolaByIdJuncao(id_juncao) {
+async function EscolaByIdJuncao(id_juncao) {
     try {
-        const escola = await prisma.escola.findFirst({
+        const escola = await prisma_1.prisma.escola.findFirst({
             where: {
                 id_juncao
             }
@@ -25,9 +31,9 @@ export async function EscolaByIdJuncao(id_juncao) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-export async function EscolaByTokenAcess(token_acess) {
+async function EscolaByTokenAcess(token_acess) {
     try {
-        const escola = await prisma.escola.findFirst({
+        const escola = await prisma_1.prisma.escola.findFirst({
             where: {
                 token_acess
             }
@@ -38,7 +44,7 @@ export async function EscolaByTokenAcess(token_acess) {
         return new EscolaResult(null, null, null, "", "");
     }
 }
-export class EscolaResult {
+class EscolaResult {
     id_juncao;
     nome_escola;
     numero_escola;
@@ -54,3 +60,4 @@ export class EscolaResult {
         this.id_escola = id_escola;
     }
 }
+exports.EscolaResult = EscolaResult;

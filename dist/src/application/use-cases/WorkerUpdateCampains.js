@@ -1,25 +1,28 @@
-import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping.js";
-import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing.js";
-import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola.js";
-import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience.js";
-import { atualizarDadosDeDisparoCampanha, atualizarFianlizadaCampanha } from "../../infrastructure/database/campaing/Camaping.js";
-export async function WorkerCampaingsUpdate() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WorkerCampaingsUpdate = WorkerCampaingsUpdate;
+const Camaping_1 = require("../../infrastructure/database/campaing/Camaping");
+const GetDataCampaing_1 = require("../../infrastructure/http/blip/GetDataCampaing");
+const Escola_1 = require("../../infrastructure/database/escola/Escola");
+const Audience_1 = require("../../infrastructure/database/audience/Audience");
+const Camaping_2 = require("../../infrastructure/database/campaing/Camaping");
+async function WorkerCampaingsUpdate() {
     try {
-        const listCampaingsActived = await CamapingWithFinalizadaIstrue();
+        const listCampaingsActived = await (0, Camaping_1.CamapingWithFinalizadaIstrue)();
         console.log(JSON.stringify(listCampaingsActived));
         for (const campaing of listCampaingsActived) {
-            const dadosEscola = await EscolaByIdJuncao(campaing.id_juncao);
+            const dadosEscola = await (0, Escola_1.EscolaByIdJuncao)(campaing.id_juncao);
             if (!dadosEscola?.token_router)
                 continue;
-            const resultGetDataCampaing = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
-            const GetDataCampaingAudience = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
+            const resultGetDataCampaing = await (0, GetDataCampaing_1.GetDataCampaing)(campaing.id_campanha, dadosEscola.token_router);
+            const GetDataCampaingAudience = await (0, GetDataCampaing_1.GetDataCampaing)(campaing.id_campanha, dadosEscola.token_router);
             console.log(JSON.stringify(resultGetDataCampaing));
             if (!resultGetDataCampaing.success || !resultGetDataCampaing.data?.length)
                 continue;
             for (const targetGroup of resultGetDataCampaing.data) {
                 const idCampaing = targetGroup.id;
                 for (const target of targetGroup.statusAudience) {
-                    const consulta = await searchCacheAudienciaToTarget(target.recipientIdentity, idCampaing);
+                    const consulta = await (0, Audience_1.searchCacheAudienciaToTarget)(target.recipientIdentity, idCampaing);
                     console.log(JSON.stringify(consulta));
                     if (!consulta)
                         continue;
@@ -72,33 +75,33 @@ async function direcionarAudience(target, idCampaing, campaing) {
         console.log("Caiu no FAILED");
         qtd_falhas++;
         if (campaing.total_audiencia != totalDeAudiencias) {
-            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+            await (0, Camaping_2.atualizarDadosDeDisparoCampanha)(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
         }
     }
     else if (target.status === "READ") {
         console.log("Caiu no READ");
         qtd_lidas++;
         if (campaing.total_audiencia != totalDeAudiencias) {
-            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+            await (0, Camaping_2.atualizarDadosDeDisparoCampanha)(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
         }
     }
     else if (target.status === "RECEIVED") {
         console.log("Caiu no RECEIVED");
         qtd_recebidas++;
         if (campaing.total_audiencia != totalDeAudiencias) {
-            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+            await (0, Camaping_2.atualizarDadosDeDisparoCampanha)(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
         }
     }
     else if (target.status === "PROCESSED") {
         console.log("Caiu no PROCESSED");
         qtd_recebidas++;
         if (campaing.total_audiencia != totalDeAudiencias) {
-            await atualizarDadosDeDisparoCampanha(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
+            await (0, Camaping_2.atualizarDadosDeDisparoCampanha)(idCampaing, qtd_recebidas, qtd_lidas, qtd_falhas);
         }
     }
     console.log(totalDeAudiencias, campaing.total_audiencia);
     if (campaing.total_audiencia == totalDeAudiencias) {
-        await atualizarFianlizadaCampanha(idCampaing);
+        await (0, Camaping_2.atualizarFianlizadaCampanha)(idCampaing);
     }
-    return updateTarget(target.recipientIdentity, idCampaing, target.status, target.reasonCode ?? undefined, target.reasonDescription ?? undefined, dataRef);
+    return (0, Audience_1.updateTarget)(target.recipientIdentity, idCampaing, target.status, target.reasonCode ?? undefined, target.reasonDescription ?? undefined, dataRef);
 }

@@ -1,7 +1,10 @@
-import { UserAcess } from "../../infrastructure/http/bradesco/UserAcess.js";
-export async function LoginUseCase(token) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LoginUseCase = LoginUseCase;
+const UserAcess_1 = require("../../infrastructure/http/bradesco/UserAcess");
+async function LoginUseCase(token) {
     try {
-        const userAccessResponse = await UserAcess(token);
+        const userAccessResponse = await (0, UserAcess_1.UserAcess)(token);
         return {
             success: userAccessResponse.status ?? false,
             data: userAccessResponse.data,

@@ -1,10 +1,16 @@
-import axios from "axios";
-import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
-import { GetTokenBradesco } from "./GetTokenBradesco.js";
-export async function GetClasses(token_acess, segment, classCode, serie) {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GetClasses = GetClasses;
+const axios_1 = __importDefault(require("axios"));
+const Escola_1 = require("../../database/escola/Escola");
+const GetTokenBradesco_1 = require("./GetTokenBradesco");
+async function GetClasses(token_acess, segment, classCode, serie) {
     try {
-        const resultSearchEschool = await EscolaByTokenAcess(token_acess);
-        const resultGetAcessApi = await GetTokenBradesco();
+        const resultSearchEschool = await (0, Escola_1.EscolaByTokenAcess)(token_acess);
+        const resultGetAcessApi = await (0, GetTokenBradesco_1.GetTokenBradesco)();
         if (resultGetAcessApi.status == false) {
             return {
                 success: false,
@@ -13,7 +19,7 @@ export async function GetClasses(token_acess, segment, classCode, serie) {
             };
         }
         const baseUrl = process.env.BASEURL;
-        const { data, status } = await axios.get(`${baseUrl}/api/school-people/schools/${resultSearchEschool.id_juncao}/classes?segment=${segment}&classCode=${classCode}&serie=${serie}`, {
+        const { data, status } = await axios_1.default.get(`${baseUrl}/api/school-people/schools/${resultSearchEschool.id_juncao}/classes?segment=${segment}&classCode=${classCode}&serie=${serie}`, {
             headers: {
                 "Authorization": resultGetAcessApi.token,
                 "Accept": "text/plain"

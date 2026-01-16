@@ -1,6 +1,6 @@
 
-import { CampaingByIdJuncao } from "../../infrastructure/database/campaing/Camaping.js";
-import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola.js";
+import { CampaingByIdJuncao } from "../../infrastructure/database/campaing/Camaping";
+import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola";
 
 export async function CampaingUseCase(token_acess: string) {
     try {

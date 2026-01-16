@@ -1,8 +1,11 @@
-import { AudienceByIdCampaing } from "../../infrastructure/database/audience/Audience.js";
-import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola.js";
-export async function AudienceUseCase(token_acess, idCamapnha) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AudienceUseCase = AudienceUseCase;
+const Audience_1 = require("../../infrastructure/database/audience/Audience");
+const Escola_1 = require("../../infrastructure/database/escola/Escola");
+async function AudienceUseCase(token_acess, idCamapnha) {
     try {
-        const getSchoolByTokenAcess = await EscolaByTokenAcess(token_acess);
+        const getSchoolByTokenAcess = await (0, Escola_1.EscolaByTokenAcess)(token_acess);
         if (!getSchoolByTokenAcess || !getSchoolByTokenAcess.id_juncao) {
             return {
                 success: false,
@@ -10,7 +13,7 @@ export async function AudienceUseCase(token_acess, idCamapnha) {
                 data: []
             };
         }
-        const getCampaingsByIdJuncao = await AudienceByIdCampaing(idCamapnha, getSchoolByTokenAcess.id_juncao);
+        const getCampaingsByIdJuncao = await (0, Audience_1.AudienceByIdCampaing)(idCamapnha, getSchoolByTokenAcess.id_juncao);
         return {
             success: true,
             message: "Audiencias capturadas com sucesso",

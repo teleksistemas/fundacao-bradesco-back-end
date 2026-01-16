@@ -1,11 +1,18 @@
-import amqp from 'amqplib';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.connectRabbit = connectRabbit;
+exports.getConectionTheChannel = getConectionTheChannel;
+const amqplib_1 = __importDefault(require("amqplib"));
 const RABBIT_URL = process.env.URL_RABBITMQ;
 let channel;
-export async function connectRabbit() {
-    const conn = await amqp.connect(RABBIT_URL);
+async function connectRabbit() {
+    const conn = await amqplib_1.default.connect(RABBIT_URL);
     channel = await conn.createChannel();
     console.log('🐇 RabbitMQ conectado');
 }
-export function getConectionTheChannel() {
+function getConectionTheChannel() {
     return channel;
 }

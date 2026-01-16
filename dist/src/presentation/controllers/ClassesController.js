@@ -1,5 +1,8 @@
-import { ClassesUseCase } from "../../application/use-cases/ClassesUseCase.js";
-export async function ClassesController(req, res) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClassesController = ClassesController;
+const ClassesUseCase_js_1 = require("../../application/use-cases/ClassesUseCase.js");
+async function ClassesController(req, res) {
     try {
         const { authorization, token_acess } = req.headers;
         const { segment, classCode, serie } = req.query;
@@ -12,7 +15,7 @@ export async function ClassesController(req, res) {
         if (!segment || typeof segment != "string" || !classCode || typeof classCode != "string" || !serie || typeof serie != "string") {
             return res.status(403).end("Necessário que segment, classCode e serie sejam do tipo string e existam nos parametros.");
         }
-        const responseClasses = await ClassesUseCase(token_acess, segment, classCode, serie);
+        const responseClasses = await (0, ClassesUseCase_js_1.ClassesUseCase)(token_acess, segment, classCode, serie);
         return res.status(responseClasses.success ? 200 : 400).json(responseClasses);
     }
     catch (e) {
