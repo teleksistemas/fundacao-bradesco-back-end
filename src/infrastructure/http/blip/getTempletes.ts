@@ -1,7 +1,7 @@
 import axios from "axios"
 
 import { v4 as uuidv4 } from "uuid";
-import { EscolaByTokenAcess } from "../../../infrastructure/database/escola/Escola"
+import { EscolaByTokenAcess } from "../../../infrastructure/database/escola/Escola.js"
 
 export async function GetTempletes(token_acess: string) {
 

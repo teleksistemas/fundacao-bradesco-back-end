@@ -1,4 +1,4 @@
-import { AudienceUseCase } from "../../application/use-cases/AudienceUseCase"
+import { AudienceUseCase } from "../../application/use-cases/AudienceUseCase.js"
 
 export async function AudineceController(req: any, res: any) {
   try {

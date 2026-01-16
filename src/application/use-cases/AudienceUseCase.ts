@@ -1,6 +1,6 @@
 
-import { AudienceByIdCampaing } from "../../infrastructure/database/audience/Audience";
-import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola";
+import { AudienceByIdCampaing } from "../../infrastructure/database/audience/Audience.js";
+import { EscolaByTokenAcess } from "../../infrastructure/database/escola/Escola.js";
 
 export async function AudienceUseCase(token_acess: string, idCamapnha: string) {
     try {

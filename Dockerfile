@@ -1,31 +1,15 @@
-# ========== ETAPA 1: BUILD ==========
-FROM node:20-alpine AS build
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-# Garante que o TypeScript está instalado
-RUN npm install -g typescript
-
-RUN npm run build
-
-# ========== ETAPA 2: RODAR ==========
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copia só o que foi compilado + package.json
-COPY --from=build /app/dist ./dist
-COPY package*.json ./
+# Copia tudo (inclusive a pasta dist já gerada)
+COPY . .
 
-# Instala apenas dependências de produção
+# Instala dependências
 RUN npm install --production
 
+# Expõe sua porta
 EXPOSE 5046
 
+# Roda a aplicação
 CMD ["node", "dist/index.js"]

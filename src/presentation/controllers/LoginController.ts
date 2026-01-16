@@ -1,4 +1,4 @@
-import { LoginUseCase } from "../../application/use-cases/LoginUseCase"
+import { LoginUseCase } from "../../application/use-cases/LoginUseCase.js"
 
 interface Acess {
   success: boolean,
