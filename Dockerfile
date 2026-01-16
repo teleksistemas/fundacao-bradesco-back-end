@@ -28,4 +28,4 @@ RUN npm install --production
 
 EXPOSE 5046
 
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/index.js"]
