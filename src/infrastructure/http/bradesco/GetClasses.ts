@@ -12,7 +12,7 @@ export async function GetClasses(token_acess: string, segment: string, classCode
       return {
         success: false,
         message: "Não conseguimos coletar token de acesso da api da bradeco.",
-        data: {}
+        data: []
       }
     }
 
@@ -27,17 +27,19 @@ export async function GetClasses(token_acess: string, segment: string, classCode
       }
     );
 
-    const resultStatus = status == 200 ? true : false
+    const resultStatus = status == 200 ? true : false;
+    
     return {
       success: resultStatus,
       message: resultStatus ? "" : "",
-      data
+      data: resultStatus ? data.data : data
     }
   } catch (e: any) {
+    console.log(e)
     return {
       success: false,
       message: "Erro interono do servidor",
-      data: {}
+      data: []
     }
   }
 }

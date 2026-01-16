@@ -1,5 +1,6 @@
 import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping.js";
 import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing.js";
+import { GetDataCampaingAudience } from "../../infrastructure/http/blip/GetDataCampaingAudience.js";
 import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola.js";
 import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience.js";
 import { atualizarDadosDeDisparoCampanha, atualizarFianlizadaCampanha } from "../../infrastructure/database/campaing/Camaping.js"
@@ -13,6 +14,7 @@ export async function WorkerCampaingsUpdate() {
             if (!dadosEscola?.token_router) continue;
 
             const resultGetDataCampaing = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
+            const GetDataCampaingAudience = await GetDataCampaing(campaing.id_campanha, dadosEscola.token_router);
             console.log(JSON.stringify(resultGetDataCampaing))
             if (!resultGetDataCampaing.success || !resultGetDataCampaing.data?.length) continue;
 
@@ -30,6 +32,7 @@ export async function WorkerCampaingsUpdate() {
                     console.log("Target atualizado ✅");
                 }
             }
+
         }
     } catch (e) {
         console.log("❌ Erro Worker:", e);

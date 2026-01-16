@@ -9,13 +9,14 @@ export interface BodyToCampaing {
   components: Components
   nameTamplate: string
   token_acess: string
+  usuario_name: string
 }
 
 export interface Targets {
   cpf: string
   mobileNumber: string
   name: string
-  students: Students
+  student: Students
 }
 
 export interface Students {

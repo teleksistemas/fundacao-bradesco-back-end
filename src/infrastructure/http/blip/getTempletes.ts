@@ -6,13 +6,14 @@ import { EscolaByTokenAcess } from "../../../infrastructure/database/escola/Esco
 export async function GetTempletes(token_acess: string) {
 
   try {
+    console.log(token_acess)
     const tokenRoteador = await EscolaByTokenAcess(token_acess)
-
+    console.log(tokenRoteador)
     if (!tokenRoteador.token_acess) {
       return {
         success: false,
         message: "Escola não encontrada",
-        data: {}
+        data: []
       }
     }
 
@@ -37,26 +38,28 @@ export async function GetTempletes(token_acess: string) {
       return {
         success: false,
         message: "Erro na API ao coletar templetes na Blip",
-        data: {}
+        data: []
       }
     }
 
     let bodyClean;
     if (data.status == "success") {
       bodyClean = data.resource.data;
+    } else {
+      bodyClean = []
     }
 
     return {
       success: true,
       message: "Templetes coletados com sucesso",
-      data: data
+      data: bodyClean
     }
 
   } catch (e: any) {
     return {
       success: false,
       message: "Erro interno no servidor",
-      data: {}
+      data: []
     }
   }
 }

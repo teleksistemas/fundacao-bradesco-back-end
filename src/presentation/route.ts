@@ -1,5 +1,5 @@
 import express from "express";
-import cron from "node-cron"
+import cors from "cors";
 import { CampaingProducerController } from "./controllers/CampaingProducerController.js";
 import { LoginController } from "./controllers/LoginController.js";
 import { ClassesController } from "./controllers/ClassesController.js";
@@ -10,6 +10,14 @@ import { CampaingController } from "./controllers/CampaingController.js";
 import { AudineceController } from "./controllers/AudineceController.js";
 
 const routes = express();
+
+const ROTAS = process.env.ROTAS;
+
+routes.use(cors({
+  origin: ROTAS,   // frontend autorizado
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 routes.use(express.json());
 

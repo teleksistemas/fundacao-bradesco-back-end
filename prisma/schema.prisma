@@ -30,6 +30,7 @@ model CacheCampanha {
   finalizada         Boolean          @default(false)
   ultima_verificacao DateTime         @default(now())
   criado_em          DateTime         @default(now())
+  name_user          String?
   atualizado_em      DateTime         @updatedAt
   audiencias         CacheAudiencia[]
 

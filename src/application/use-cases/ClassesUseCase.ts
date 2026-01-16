@@ -13,7 +13,7 @@ export async function ClassesUseCase(
         return {
             success: false,
             message: "",
-            data: {}
+            data: []
         }
     }
 }

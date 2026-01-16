@@ -10,7 +10,7 @@ export async function AudienceUseCase(token_acess: string, idCamapnha: string) {
             return {
                 success: false,
                 message: "Escola não encontrada para coletar audiencias",
-                data: {}
+                data: []
             }
         }
         
@@ -24,7 +24,7 @@ export async function AudienceUseCase(token_acess: string, idCamapnha: string) {
         return {
             success: false,
             message: "Erro interno no servidor",
-            data: {}
+            data: []
         }
     }
 }

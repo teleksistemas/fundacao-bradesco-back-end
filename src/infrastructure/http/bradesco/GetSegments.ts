@@ -38,7 +38,7 @@ export async function GetSegments(token_acess: string) {
     return {
       success: status == 200 ? true : false,
       message: status == 200 ? "Encontrado com sucesso" : "Erro ao tentar consultar os segmentos",
-      data: status == 200 ? data : {}
+      data: status == 200 ? data.segments : {}
     }
   } catch (e: any) {
     console.log(e)

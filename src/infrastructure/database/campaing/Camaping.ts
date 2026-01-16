@@ -37,7 +37,7 @@ export async function CamapingWithFinalizadaIstrue() {
     }
 }
 
-export async function createCampanha(body: any) {
+export async function createCampanha(body: any, nameUser: string) {
     try {
         const data = {
             id_campanha: body.id_campanha,
@@ -46,7 +46,8 @@ export async function createCampanha(body: any) {
             nome_campanha: body.nome_campanha,
             modelo_mensagem: body.modelo_mensagem,
             data_envio: new Date(),
-            total_audiencia: body.total_audiencia || 0
+            total_audiencia: body.total_audiencia || 0,
+            name_user: nameUser
         }
 
         await prisma.cacheCampanha.create({ data })

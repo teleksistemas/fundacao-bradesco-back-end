@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expõe a porta do Express (mude se usar outra)
-EXPOSE 5096
+EXPOSE 5046
 
 # Inicia a aplicação
 CMD ["npm", "start"] 

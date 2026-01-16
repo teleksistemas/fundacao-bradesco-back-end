@@ -30,16 +30,16 @@ export async function UserAcess(token: any) {
 
         const getTokenAcessSchool = await EscolaByIdJuncao(data.complemento.Juncao);
         return {
-            status: status == 200 ? true : false,
-            data: status == 200 ? data?.complemento : {},
+            success: status == 200 ? true : false,
+            data: status == 200 ? data?.complemento : [],
             token_acess: getTokenAcessSchool.token_acess,
             menssage: status == 200 ? "Usuario indentificado com sucesso" : "Usuario não indentificado",
         }
 
     } catch (e: any) {
         return {
-            status: false,
-            data: {},
+            success: false,
+            data: [],
             token_acess: "",
             menssage: e
         };

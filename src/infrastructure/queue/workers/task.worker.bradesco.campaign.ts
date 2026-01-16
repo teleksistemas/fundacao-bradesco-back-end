@@ -33,6 +33,8 @@ export async function startTaskWorkerCampaign() {
     const bodyCampaign: BodyToCampaing = JSON.parse(msg.content.toString())
 
     try {
+
+      console.log(JSON.stringify(bodyCampaign))
       const schoolTargets = await EscolaByTokenAcess(bodyCampaign.token_acess);
       const payload = await modelarPayloadParaDisparo(
         bodyCampaign.nameTamplate,
@@ -55,7 +57,7 @@ export async function startTaskWorkerCampaign() {
           total_audiencia: payload.resource.audiences.length || 0
         }
 
-        await createCampanha(data)
+        await createCampanha(data, bodyCampaign.usuario_name)
       }
 
       if (sendCampaingToBlip.success) {
@@ -68,10 +70,10 @@ export async function startTaskWorkerCampaign() {
             identidade_destino: `${target.mobileNumber}@wa.gw.msging.net`,
             msisdn: target.mobileNumber,
             status: "PENDENTE",
-            nome_aluno: target.students.name || null,
+            nome_aluno: target.student.name || null,
             nome_responsavel: target.name || null,
             nome_escola: schoolTargets.nome_escola || null,
-            nome_turma: target.students.description || null
+            nome_turma: target.student.description || null
           }
 
 
@@ -148,7 +150,7 @@ const modelarPayloadParaDisparo = async (
 const getValueByPath = (obj: any, path: string): any => {
   return path.split('.').reduce((acc, key) => {
     if (acc === null || acc === undefined) return undefined
-    return acc[key]
+    return acc[key] ?? path
   }, obj)
 }
 

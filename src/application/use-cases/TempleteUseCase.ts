@@ -9,7 +9,7 @@ export async function TempleteUseCase(token_acess: string) {
         return {
             success: false,
             message: "Erro interno no servidor",
-            data: {}
+            data: []
         }
     }
 }

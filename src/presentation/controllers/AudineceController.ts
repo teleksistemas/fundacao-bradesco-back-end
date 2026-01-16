@@ -8,7 +8,7 @@ export async function AudineceController(req: any, res: any) {
       return res.status(403).json({
         success: false,
         message: "Necessário do authorization no header",
-        data: {}
+        data: []
       });
     }
 
@@ -16,7 +16,7 @@ export async function AudineceController(req: any, res: any) {
       return res.status(403).json({
         success: false,
         message: "Necessário do token_acess no header",
-        data: {}
+        data: []
       });
     }
 
@@ -24,7 +24,7 @@ export async function AudineceController(req: any, res: any) {
       return res.status(403).json({
         success: false,
         message: "Necessário do idCamapnha nos parametros",
-        data: {}
+        data: []
       });
     }
     const resultGetAudience = await AudienceUseCase(token_acess, idCamapnha);
@@ -34,7 +34,7 @@ export async function AudineceController(req: any, res: any) {
     return res.status(500).json({
       success: false,
       message: "Erro interno do servidor",
-      data: {}
+      data: []
     });
   }
 }

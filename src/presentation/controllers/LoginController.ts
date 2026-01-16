@@ -1,9 +1,9 @@
 import { LoginUseCase } from "../../application/use-cases/LoginUseCase.js"
 
 interface Acess {
-  status: boolean,
+  success: boolean,
   data: any,
-  menssage: string
+  menssage?: string
 }
 
 export async function LoginController(req: any, res: any) {
@@ -18,7 +18,7 @@ export async function LoginController(req: any, res: any) {
     }
 
     const responseAcess: Acess = await LoginUseCase(token_fb);
-    return res.status(responseAcess.status ? 200 : 400).json(responseAcess)
+    return res.status(responseAcess.success ? 200 : 400).json(responseAcess)
 
   } catch (e: any) {
     return res.status(500).json({
