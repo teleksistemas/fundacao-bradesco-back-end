@@ -1,23 +1,31 @@
-# Imagem base Node
-FROM node:20-alpine
+# ========== ETAPA 1: BUILD ==========
+FROM node:20-alpine AS build
 
-# Diretório da aplicação
 WORKDIR /app
 
-# Copia package.json e lock
 COPY package*.json ./
 
-# Instala dependências
 RUN npm install
 
-# Copia o resto do projeto
 COPY . .
 
-# Compila o TypeScript
+# Garante que o TypeScript está instalado
+RUN npm install -g typescript
+
 RUN npm run build
 
-# Expõe a porta do Express (mude se usar outra)
+# ========== ETAPA 2: RODAR ==========
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copia só o que foi compilado + package.json
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+
+# Instala apenas dependências de produção
+RUN npm install --production
+
 EXPOSE 5046
 
-# Inicia a aplicação
-CMD ["npm", "start"] 
+CMD ["node", "dist/server.js"]
