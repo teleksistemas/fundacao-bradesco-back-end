@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 # Expõe a porta da aplicação
-EXPOSE 5055
+EXPOSE 5046
 
 # Comando de inicialização
 CMD ["npm", "start"]
