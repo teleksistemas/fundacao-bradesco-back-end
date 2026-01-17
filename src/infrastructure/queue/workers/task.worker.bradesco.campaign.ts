@@ -117,6 +117,26 @@ const modelarPayloadParaDisparo = async (
 
   const audiences = await modelarAudience(targets, components)
 
+  const campoMensagem = () => {
+    let dados
+
+    if (components.camposDeUtilização.length > 0) {
+      dados = {
+        messageTemplate: nameTamplate,
+        messageParams: components.camposDeUtilização.map((i: any) => String(i + 1)),
+        channelType: "WhatsApp"
+      }
+    } else {
+      dados = {
+        messageTemplate: nameTamplate,
+        channelType: "WhatsApp"
+      }
+    }
+
+    return dados
+  }
+
+
   return {
     id: uuidv4(),
     to: "postmaster@activecampaign.msging.net",
@@ -133,11 +153,7 @@ const modelarPayloadParaDisparo = async (
         channelType: "WhatsApp"
       },
       audiences,
-      message: {
-        messageTemplate: nameTamplate,
-        messageParams: components.camposDeUtilização.map((i:any) => String(i + 1)),
-        channelType: "WhatsApp"
-      }
+      message: campoMensagem()
     }
 
   }
@@ -158,7 +174,7 @@ const modelarAudience = async (targets: Targets[], components: Components) => {
   return targets.map(target => {
     const params: Record<string, string> = {}
 
-    components.camposDeUtilização.forEach((campo:any, index:any) => {
+    components.camposDeUtilização.forEach((campo: any, index: any) => {
       let valor: any = getValueByPath(target, campo)
 
       if (Array.isArray(valor)) valor = valor[0]
