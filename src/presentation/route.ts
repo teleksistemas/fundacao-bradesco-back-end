@@ -11,8 +11,6 @@ import { AudineceController } from "./controllers/AudineceController.js";
 
 const routes = express();
 
-const ROTAS = process.env.ROTAS;
-
 routes.use(cors());
 
 routes.use(express.json());
