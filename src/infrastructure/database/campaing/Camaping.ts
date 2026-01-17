@@ -75,7 +75,7 @@ export async function createCampanha(body: any, nameUser: string) {
         name_user,
         atualizado_em
       )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
     `;
 
     await pool.query(query, [

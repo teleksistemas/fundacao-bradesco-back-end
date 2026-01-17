@@ -56,9 +56,10 @@ export async function createCacheAudiencia(body: any) {
         nome_aluno,
         nome_responsavel,
         nome_escola,
-        nome_turma
+        nome_turma,
+        atualizado_em
       )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
     `;
 
     await pool.query(query, [
@@ -71,6 +72,7 @@ export async function createCacheAudiencia(body: any) {
       body.nome_responsavel || null,
       body.nome_escola || null,
       body.nome_turma || null,
+      new Date()
     ]);
 
     return true;
