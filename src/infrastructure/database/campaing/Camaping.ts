@@ -72,7 +72,8 @@ export async function createCampanha(body: any, nameUser: string) {
         modelo_mensagem,
         data_envio,
         total_audiencia,
-        name_user
+        name_user,
+        atualizado_em
       )
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
     `;
@@ -86,6 +87,7 @@ export async function createCampanha(body: any, nameUser: string) {
       new Date(),
       body.total_audiencia || 0,
       nameUser,
+      new Date()
     ]);
 
     return true;
