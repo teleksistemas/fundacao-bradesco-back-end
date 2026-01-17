@@ -1,8 +1,8 @@
-import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping";
-import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing";
-import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola";
-import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience";
-import { atualizarDadosDeDisparoCampanha, atualizarFianlizadaCampanha } from "../../infrastructure/database/campaing/Camaping"
+import { CamapingWithFinalizadaIstrue } from "../../infrastructure/database/campaing/Camaping.js";
+import { GetDataCampaing } from "../../infrastructure/http/blip/GetDataCampaing.js";
+import { EscolaByIdJuncao } from "../../infrastructure/database/escola/Escola.js";
+import { searchCacheAudienciaToTarget, updateTarget } from "../../infrastructure/database/audience/Audience.js";
+import { atualizarDadosDeDisparoCampanha, atualizarFianlizadaCampanha } from "../../infrastructure/database/campaing/Camaping.js"
 
 export async function WorkerCampaingsUpdate() {
     try {

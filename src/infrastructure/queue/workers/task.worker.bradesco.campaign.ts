@@ -1,12 +1,12 @@
 
 
 import { v4 as uuidv4 } from "uuid";
-import { getConectionTheChannel } from '../connection.rabbitmg';
-import { EscolaByTokenAcess } from "../../database/escola/Escola";
-import { BodyToCampaing, Components, Students, Targets } from "../../../application/interfaces/BodyToCampaing";
-import { SendCampaing } from "../../http/blip/sendCampaing";
-import { createCampanha } from "../../database/campaing/Camaping";
-import { createCacheAudiencia } from "../../database/audience/Audience";
+import { getConectionTheChannel } from '../connection.rabbitmg.js';
+import { EscolaByTokenAcess } from "../../database/escola/Escola.js";
+import { BodyToCampaing, Components, Students, Targets } from "../../../application/interfaces/BodyToCampaing.js";
+import { SendCampaing } from "../../http/blip/sendCampaing.js";
+import { createCampanha } from "../../database/campaing/Camaping.js";
+import { createCacheAudiencia } from "../../database/audience/Audience.js";
 
 /* =======================
    START WORKER
@@ -27,7 +27,7 @@ export async function startTaskWorkerCampaign() {
 
   channel.prefetch(1)
 
-  channel.consume(queue, async msg => {
+  channel.consume(queue, async (msg: any) => {
     if (!msg) return
 
     const bodyCampaign: BodyToCampaing = JSON.parse(msg.content.toString())
@@ -135,7 +135,7 @@ const modelarPayloadParaDisparo = async (
       audiences,
       message: {
         messageTemplate: nameTamplate,
-        messageParams: components.camposDeUtilização.map((_, i) => String(i + 1)),
+        messageParams: components.camposDeUtilização.map((i:any) => String(i + 1)),
         channelType: "WhatsApp"
       }
     }
@@ -158,7 +158,7 @@ const modelarAudience = async (targets: Targets[], components: Components) => {
   return targets.map(target => {
     const params: Record<string, string> = {}
 
-    components.camposDeUtilização.forEach((campo, index) => {
+    components.camposDeUtilização.forEach((campo:any, index:any) => {
       let valor: any = getValueByPath(target, campo)
 
       if (Array.isArray(valor)) valor = valor[0]

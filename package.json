@@ -22,7 +22,6 @@
   "homepage": "https://github.com/GabrielLS88/poup-be#readme",
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "^7.2.0",
     "amqplib": "^0.10.9",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
@@ -41,7 +40,6 @@
     "@types/pg": "^8.16.0",
     "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.11",
-    "prisma": "^7.2.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",

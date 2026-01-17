@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EscolaByIdJuncao } from "../../database/escola/Escola"
+import { EscolaByIdJuncao } from "../../database/escola/Escola.js"
 
 const chavesDeTeste = ["telekmarilia", "telekjaboatao", "telekjardimconceicao", "telekriodejaneiro", "telekmanaus", "telekmanaus", "teleksalvador", "teleknatal", "teleksaoluis", "telekteresina", "telekadmin", "telek"]
 

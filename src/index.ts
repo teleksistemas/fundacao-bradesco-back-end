@@ -1,7 +1,7 @@
 import 'dotenv/config'
-import routes from "./src/presentation/route"
-import { connectRabbit } from "./src/infrastructure/queue/connection.rabbitmg";
-import { startTaskWorkerCampaign } from './src/infrastructure/queue/workers/task.worker.bradesco.campaign';
+import routes from "./presentation/route.js"
+import { connectRabbit } from "./infrastructure/queue/connection.rabbitmg.js";
+import { startTaskWorkerCampaign } from './infrastructure/queue/workers/task.worker.bradesco.campaign.js';
 
 const PORT = process.env.PORT || 5046;
 

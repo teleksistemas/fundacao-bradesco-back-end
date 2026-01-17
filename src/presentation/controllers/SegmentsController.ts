@@ -1,4 +1,4 @@
-import { SegmentsUseCase } from "../../application/use-cases/SegmentsUseCase"
+import { SegmentsUseCase } from "../../application/use-cases/SegmentsUseCase.js"
 export async function SegmentsController(req: any, res: any) {
   try {
     const { authorization, token_acess } = req.headers

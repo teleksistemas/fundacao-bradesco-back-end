@@ -1,4 +1,4 @@
-import { GetTempletes } from "../../infrastructure/http/blip/getTempletes";
+import { GetTempletes } from "../../infrastructure/http/blip/getTempletes.js";
 
 
 export async function TempleteUseCase(token_acess: string) {

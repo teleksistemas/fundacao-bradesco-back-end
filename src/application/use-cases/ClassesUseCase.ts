@@ -1,4 +1,4 @@
-import { GetClasses } from "../../infrastructure/http/bradesco/GetClasses"
+import { GetClasses } from "../../infrastructure/http/bradesco/GetClasses.js"
 
 export async function ClassesUseCase(
     token_acess: string,
