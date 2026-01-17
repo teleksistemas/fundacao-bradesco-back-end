@@ -13,11 +13,7 @@ const routes = express();
 
 const ROTAS = process.env.ROTAS;
 
-routes.use(cors({
-  origin: ROTAS,   // frontend autorizado
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+routes.use(cors());
 
 routes.use(express.json());
 
